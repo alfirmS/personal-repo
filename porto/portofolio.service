@@ -1,0 +1,21 @@
+[Unit]
+Description=Portofolio Service
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=/run/php-fpm/php-fpm.pid
+User=root
+Group=root
+ExecStartPre=/usr/bin/cp /home/noname/personal/personal-repo/porto/config/nginx.conf /etc/nginx
+ExecStart=/usr/sbin/php-fpm --nodaemonize
+ExecReload=/bin/kill -USR2 $MAINPID
+PrivateTmp=true
+RuntimeDirectory=php-fpm
+RuntimeDirectoryMode=0755
+ExecStartPost=/usr/sbin/nginx -g 'daemon off;'
+ExecStop=/usr/sbin/nginx -s stop
+
+[Install]
+WantedBy=multi-user.target
+

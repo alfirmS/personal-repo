@@ -1,0 +1,16 @@
+[Unit]
+Description=Nginx HTTP Server
+After=network.target
+
+[Service]
+User=root
+Group=root
+ExecStartPre=/usr/bin/cp /home/noname/personal/personal-repo/porto/config/nginx.conf /etc/nginx
+ExecStart=/usr/sbin/nginx -g 'daemon off;'
+ExecReload=/usr/sbin/nginx -s reload
+ExecStop=/usr/sbin/nginx -s stop
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
