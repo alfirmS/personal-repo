@@ -1,0 +1,43 @@
+2023-07-21 09:18:32 Loading main app package /var/lib/snapd/snap/obsidian/12/resources/obsidian.asar
+2023-07-21 09:18:32 Checking for update using Github
+libGL error: MESA-LOADER: failed to open swrast: /usr/lib/x86_64-linux-gnu/dri/swrast_dri.so: cannot open shared object file: No such file or directory (search paths /usr/lib/x86_64-linux-gnu/dri, suffix _dri)
+libGL error: failed to load driver: swrast
+[34313:0721/161832.983270:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[34313:0721/161832.983614:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[34313:0721/161832.983816:ERROR:gl_display.cc(793)] eglInitialize OpenGL failed with error EGL_NOT_INITIALIZED, trying next display type
+[34313:0721/161832.987444:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[34313:0721/161832.987783:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[34313:0721/161832.988293:ERROR:gl_display.cc(793)] eglInitialize OpenGLES failed with error EGL_NOT_INITIALIZED
+[34313:0721/161832.988512:ERROR:gl_display.cc(819)] Initialization of all EGL display types failed.
+[34313:0721/161832.988693:ERROR:gl_ozone_egl.cc(26)] GLDisplayEGL::Initialize failed.
+[34313:0721/161833.056463:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[34313:0721/161833.056693:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[34313:0721/161833.056892:ERROR:gl_display.cc(793)] eglInitialize OpenGL failed with error EGL_NOT_INITIALIZED, trying next display type
+[34313:0721/161833.059874:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[34313:0721/161833.060076:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[34313:0721/161833.060128:ERROR:gl_display.cc(793)] eglInitialize OpenGLES failed with error EGL_NOT_INITIALIZED
+[34313:0721/161833.060207:ERROR:gl_display.cc(819)] Initialization of all EGL display types failed.
+[34313:0721/161833.060251:ERROR:gl_ozone_egl.cc(26)] GLDisplayEGL::Initialize failed.
+[34313:0721/161833.066960:ERROR:viz_main_impl.cc(186)] Exiting GPU process due to errors during initialization
+libva error: vaGetDriverNameByIndex() failed with unknown libva error, driver_name = (null)
+[34351:0721/161833.238406:ERROR:gpu_memory_buffer_support_x11.cc(49)] dri3 extension not supported.
+[34323:0721/161833.241827:ERROR:command_buffer_proxy_impl.cc(128)] ContextResult::kTransientFailure: Failed to send GpuControl.CreateCommandBuffer.
+2023-07-21 09:18:33 Success.
+2023-07-21 09:18:33 Latest version is 1.3.5
+2023-07-21 09:18:33 App is up to date.
+2023-07-21 10:18:32 Checking for update using Github
+2023-07-21 10:18:32 Success.
+2023-07-21 10:18:32 Latest version is 1.3.5
+2023-07-21 10:18:32 App is up to date.
+2023-07-21 11:18:32 Checking for update using Github
+2023-07-21 11:18:32 Success.
+2023-07-21 11:18:32 Latest version is 1.3.5
+2023-07-21 11:18:32 App is up to date.
+2023-07-21 12:18:32 Checking for update using Github
+2023-07-21 12:18:32 Success.
+2023-07-21 12:18:32 Latest version is 1.3.5
+2023-07-21 12:18:32 App is up to date.

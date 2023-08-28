@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://34.101.88.5
+    name: admin-prod-gcp
+contexts:
+  - context:
+      cluster: admin-prod-gcp
+      user: admin-prod-gcp
+    name: admin-prod-gcp
+current-context: admin-prod-gcp
+kind: Config
+preferences: {}
+users:
+  - name: admin-prod-gcp
+    user:
+      token: eyJhbGciOiJSUzI1NiIsImtpZCI6IkN0TWh1d2REYVhOUm1HSlM3NEtqZzVvVzAzTmhKN3FBUk1OTmNWZHRHNDAifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJqZW5raW5zLWRlcGxveWVyLXRva2VuLXpmdDloIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMtZGVwbG95ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI2MThlN2IyYS0zNDBjLTQwNzktYWM0YS0xYjUwZDgxMTY0OWEiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06amVua2lucy1kZXBsb3llciJ9.uMNpO8rbCaSYYiIzQL7LQRKdqcbULl5VGPTsOnwixWL8Ra1TCvj_BHAUjj8IAawaa2ANESFSv0H9mY1mNiEzwWFvU3zFP6qUBJZlrcgmEP1TLrVoImPUlsGJXAzuoEp-RptxPhQeF3mIks5N4EQDwzhNtoaL9Wj-tm9QTSGf7sOtVy8_Pq1lKTjF5q0tobFcW4L2zy4fOanNHA1xBfNXty_upFRmw97oXdOiUb9_ooN8O7oaM_GCj3N5Wgf5BVCRJ6ukiAEe1176hsgE-WFQkKzWOturqxSJor3-YPJfLQpjXzQcwMPjPtRJROcN9pUa5D7B_Y-EtN22M4VZKgCBmQ

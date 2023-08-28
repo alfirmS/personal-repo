@@ -1,0 +1,518 @@
+apiVersion: v1
+clusters:
+- cluster:
+    insecure-skip-tls-verify: true
+    server: https://api.ocpdev-jkt.adira.co.id:6443
+  name: api-ocpdev-jkt-adira-co-id:6443
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMRENDQXBTZ0F3SUJBZ0lRTlF1dXZsWTJsTVM0bmdiN1pjVEdFakFOQmdrcWhraUc5dzBCQVFzRkFEQXYKTVMwd0t3WURWUVFERXlSbE5UTXlZVEEzT1MwMU1XVm1MVFJpWTJRdE9UUmxNQzB5T1Rka1l6UTFaR1ptWm1ZdwpJQmNOTWpJd05EQTFNRFEwTVRFMFdoZ1BNakExTWpBek1qZ3dOVFF4TVRSYU1DOHhMVEFyQmdOVkJBTVRKR1UxCk16SmhNRGM1TFRVeFpXWXROR0pqWkMwNU5HVXdMVEk1TjJSak5EVmtabVptWmpDQ0FhSXdEUVlKS29aSWh2Y04KQVFFQkJRQURnZ0dQQURDQ0FZb0NnZ0dCQU16MlFWbzQyY3RmSHNiN1BsY2xHRHVzZmluTDVRU3hqUnVnY0l3UApKM05iQ0oxcTBXNEI1NW1KZzR0Y1RHMVhOcGl2aHFDdm9vczFHYVV3aG9TQWdIVTljMW1ZSUpPeld6YWx1ZGtJCmw2cmtJUFNFcDBpc1AwN25oa2RjYXc3U3lkNEdpdkNBUzkvUGtGZ1laMGdPb0VEcHJodFNpTkltV3FWcnhRaloKMVZ3YTBHTTJQQlN4TmJOM3JNM0hyS2x5RUF0R3RjVDVjWFFtaHJGM1BaVjhZZ0pZT055YjRDY3M5V0VhQjBvTApWaVJHYXBsOW9yU1B2UjYzZWpwdGEzQUEvZGJPUm0wNUwwcVl2enBCdko0U0U4YzBaTHJ5aE81cVBuNVExSm5UCmxVU0llVHFvMHNqZlFXT1VvOHlmeHFjK0N2cmlwaCs1L3dQMExFYmlsMGM4UVdjaC9BVGtjODVGWU5KUWpIYW8KK3QyMDhzSHZESVZ1cGdHemJtYWo5TElzSE5ZUERETjNoTDJqNThTdnFTek5iTkRFKy95ZGVseStkT3ZMUklUKwpOc1JFWnlZMEZab24rNklPVHE1QXNHOFpsRTl1QUxkUEJhZmdlaUV6TDFMbmJKVUx0eGlpNi9ZTi9DMWp1SDZJCks0Y3kyaktQODl0eU9iQlRBazdyMmFtQWFRSURBUUFCbzBJd1FEQU9CZ05WSFE4QkFmOEVCQU1DQWdRd0R3WUQKVlIwVEFRSC9CQVV3QXdFQi96QWRCZ05WSFE0RUZnUVVEaEpjSWhISnU5VThhQVM4TW9JMGdyQWJtSU13RFFZSgpLb1pJaHZjTkFRRUxCUUFEZ2dHQkFJU1pmTjRWa3NlRmtTclRmWERnY01vM1lieVptQVQ2REFjZTRqU2kzcGVGClNiRG0wbm4vbzhoREtORmMrVVJaajhWTjZpVnVtMjFTZ1pCOSs1MWpkeFpaQTJMaDVHSWIyT3EwS1UxT3kvd1oKOFU0SzlTRk9SWjk4WXVMcVdUK2JJRzlHYUtqZ3AvWThqQU9wT1dkYkVpcDhmZTEvLzdlYzI5RytUbDJjWjFBawpndElVTTU4UFpKVnlMR3dIemRMYVVjRXNoUGIyTGZNNXVDVmZXSlM3Z3FETzNNNmNLM3pZRUVaakc5NFNFYXkwCmhWRWdiVjJidVdPbVUxMnpiUSt2WEY5cCtWcGovK0ZXSXFPMWFMUkU2TTdManBQSnhqSWx0SUFVZXZSSitjQUIKdi9xbXZBMFRBSWJkMTdTaHRmUVB2c1hDK2hmSFJBWUg5VnZwdy9neDBHQzRoVnVaaFhTcUxmUXhhRC9uK0Q1dwpOUVhaTk9SQlltU3dJL0VmZkxSV0pGRHI1M1Axb29MRU5GejI4RS93Z2ZaSEN4RGI2UEQyYklpak1JeFdVNk9kCnpaY1VabDVkYnJLRTlyZTNCdC85RnVxR21nbkY5SUhJM2xHRTYrVjBqM3ZlZjVrOGQvTkMwWlNQd3ZmV2QrQUQKR2g1dndUUnExZ0lLN2d5dFpKRDgwdz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://34.101.154.73
+  name: bpr-dev
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMVENDQXBXZ0F3SUJBZ0lSQU1QeDMvS3Q2SG1FSWxOSE44cW52S1F3RFFZSktvWklodmNOQVFFTEJRQXcKTHpFdE1Dc0dBMVVFQXhNa01HSXlPV0U1TmpVdE5URTBZaTAwTmpRd0xXRmhNVEF0T1dOaU5UVmpNRGd3T1RFMApNQ0FYRFRJeU1USXdNVEEzTkRJd09Wb1lEekl3TlRJeE1USXpNRGcwTWpBNVdqQXZNUzB3S3dZRFZRUURFeVF3CllqSTVZVGsyTlMwMU1UUmlMVFEyTkRBdFlXRXhNQzA1WTJJMU5XTXdPREE1TVRRd2dnR2lNQTBHQ1NxR1NJYjMKRFFFQkFRVUFBNElCandBd2dnR0tBb0lCZ1FDN0lqMU1xNzQ3c1B1b3hhMUFxLzBUQ0c3ejBKM2hzRGFkblQ0ZQpoTnhwMFMzNklCS0gvdkgwUVZZbldGZTQwK0c3UzdwRktQZ0lLemhrQ3o2NzZzZTZvZlNmSnc2WVRGMTFkeEF5CjRsYUZZVHRMWW1rTGl5TmdqZkJaUVdGc3kwc0U3aDk5eitwb3MxZEpFVHZzalFpRTJVdFpsZ1RvZGFOLzZ1U0QKVUtBakZMai92UGpBaGw4Mzcvb21PNUlBQlJUVm1uY0FMZ1UzN0ZRV2R2TjRvRldhL1AvRGhPaGxGRWR5YTczNgpiYkMxeE1xOUlXbnlybXhJbHVndTJ3UDZVc1M0K0lObHNrMkRjdERsb3dDRHJHSCt1Y003MFhHS3NjTkVhUUo5CllGWVBwbmNNU0R2anZiek5ZSUs4V2VSaDE4c0M3Q3AxZjlVVGM1Z0lUZDYzZE1UVHpLcit6eWhmeFlWam50K2YKb1lmcGEyT0JWTk5VcVZna2tVcGV2TGx2SmU3VFo1bU9MNHBSOE5hSFI0UUVmbDl5dVh2OXRlOUo2dk5zN29wUwpqSVh1WlZoekxPZTZWZXRaM2FRSmZRZXNKQXBXOGx1U0x6c2FHZkJvSjFlSDNlRHN6eUw1VkRpeHlZdnF3TE9oClNuZWJ5MnArOWdHVnlzSXhHRGUxRGpGb2JvY0NBd0VBQWFOQ01FQXdEZ1lEVlIwUEFRSC9CQVFEQWdJRU1BOEcKQTFVZEV3RUIvd1FGTUFNQkFmOHdIUVlEVlIwT0JCWUVGQ01XVnlOajRJbWxqdW9tSHhPdHFBR0VEODRWTUEwRwpDU3FHU0liM0RRRUJDd1VBQTRJQmdRQ0hKTmQ2K0Z5a3d1Vm02ZkcxSGdLOEo4SGxDaDUyeWZtSTN3YTYyYkV0CjZTZHZLb1BOdDUrRUx6MnphVS9rZ0ZXcVN2V21OSFBzQ0dwSXUyd1hIazZFdWt2VE9LNlpkdkhmNVdUT21vN1IKUDlpUHJWSWV3V2RVeHhDeHVWTHBzZWc0QlVLTm5xVkJDYTBMdFRkaWdUQnBRb1R2UDJmY3NYeGExdlREZjI2ZgpoeE1TUk55SDhmazhuTFNxL2wwand2eFZXZElnajhqV1JjcUNkRmlCMlduWlhZRFJxS3AxeFQ5cUJPWFBJb2xICnIrTXNOT2VyWExyS1JxUFpsb2JMSkgrMytLQ3c4T0NlSklEM2lYeU5GeEY2anpzeGlBditGWnFQUnZFdERXU2YKczRqVjZZL0FGVDAxTWZIWTBVNFExRDNqOW5OY2J2Q29SeWxSQWhpVXp3ajJEYytLSGwrSDNTNlVNM0NWYWc2bQp1dzdrTkc3VXBPSjREbVBPeGhIbDFOc09WRTVIdExRV3R0Sk16K3o0b21QejhCKytUODEyRzRudWZuRU9QUmNrCm1idGpJNUJnQjZ1QWtDNHpEQXJGK3BDazhOVDgva3NLcnNSbU4zY25UWXUxKytRaTJJVXBiUkM4MVpPYWdaemEKQnM1NlIyK3B1V25uV0p2VWVRc3FPZlE9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://34.101.89.8
+  name: gke_bpr-mvp2-production_asia-southeast2-b_billing-prd
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMVENDQXBXZ0F3SUJBZ0lSQU5sd2Q4UjhGTVBVK1pXS0MyemlEN3d3RFFZSktvWklodmNOQVFFTEJRQXcKTHpFdE1Dc0dBMVVFQXhNa1lUaG1NRFkyTW1JdFpESmtaUzAwWldReExUZ3laR1l0WWpnME9UQXpPRFZpWWpFNApNQ0FYRFRJeU1USXdNVEEzTlRnME1Gb1lEekl3TlRJeE1USXpNRGcxT0RRd1dqQXZNUzB3S3dZRFZRUURFeVJoCk9HWXdOall5WWkxa01tUmxMVFJsWkRFdE9ESmtaaTFpT0RRNU1ETTROV0ppTVRnd2dnR2lNQTBHQ1NxR1NJYjMKRFFFQkFRVUFBNElCandBd2dnR0tBb0lCZ1FEWVZaS3dYNEZ2QjZQajMxWUV1aktXVTVNaTBibXh3eEVDRUIzaAp5dk9WQ3FMY0pmY2ZYSkZqenRJVnk2SE5jT0podUYrazZFejZ2b2JheE13aFJPTHk3dEhNUXM1WW9pa2RHRTdtCllFbWFERU80VWtMaThnejVneUlQYUZLTHV1SzhIYzNRN0o3UG1MNlNIU0lrUEtBNXNBSzRMcjhScWpYZDRHOVUKQ2t5OHE4OTJNaFJMMUhaOGJ6RTNJN2p6TlZrOE9nNGFSS2RJZ1dYSjRvZFVEZExMM3hUWmRhSWo4ZUVBRklmUApBTFFra0JCVTJRWU0rL2tsVHc5Ny9QTTkyVnFFZFkxTEJ5OWkrb2J3MWtBV0d1WDU2VG9OaUhqbzN4SGJmcXMxCm5rRldDWXpWbU5SQ0o2TXRHUjdKaXdxM1NpVWtxTE1BajBRdlQvM28vSmtleDNCbFQ2THc3V1c1UkRVVFJxMUUKckdtbW1pdXEwUm9oSG1LR0xiaGZNTVc5dWJteEhUeFEwWHgwdCsvc215eDBKUDIvMXpBaU94N0t1cDkra3RTTApNcEtDcTVlQ1lIVEpnMTBITi9iejVNN1AyeFk2WEIybkNEZFh4UmNBMkpLcHlRdUhQVDNvY1Y1dEU3K0JTZUk5CmNueEcwaFlkb3RKdVVaaGRLWHBiT01EMW83a0NBd0VBQWFOQ01FQXdEZ1lEVlIwUEFRSC9CQVFEQWdJRU1BOEcKQTFVZEV3RUIvd1FGTUFNQkFmOHdIUVlEVlIwT0JCWUVGSzhobUtYeUpHU0Rxcm5pZVpFMWhaT0F2QmtrTUEwRwpDU3FHU0liM0RRRUJDd1VBQTRJQmdRQmtVL3hVSVdoNkhoaWQ1NDFxSnVtaUtkblFtT0V6WTUzdUYzUXpPRmdCCjkvYUJEV0M2YnA5VTgxdEhJS3FtYzVPNXk0SEgrbGJhc2RJY2o5bkZ3Q3BidXVNUURLZ094d25PRkwzV05RMXcKOUNjTDFCZjRKVUNzcUNyVEFJSmlpbDEydUw3QzRvT1FndGVQUGIwUUM4V2VoNnh3eENOMDJUNVlrMXYyZnRuLwpuTUhGc0VEZk56TUpXOFhTT05xK0tHTHBWZVBsMkNWSGhLNEFzeG9OdzRWSWJOMHFIUEpVREM5RUEvd3NidXpzCkt4MExISU5FZmQ5T1VlTzJwN0NQaG5keTA3T1JhdlhtbUZVR0w5NWJHVWF1V0xSekFobUIvam5rREJFWHhhcXUKQlV2TEdDb3RIVm1pS1o1eFFsclMzcHdFU0wrRlkwSTl0UjN2UmRoRHgwdFBZMzE4aDhWVTl2QXVCSVpqbWJsMQoyWGwvdWVTWGNoSCt0VS9MN2xXRURRbjZGcTJSNDdGQXZEK04yeCtaWTdpVHcwS21pbGpzVTE5OUtoeHUxNEhmCnh4N1ljVG8wTm9EOU9DZW9tRkRoQWM4V3BEUVRjRkpTNGNpQUVuNDFFc0w5ZnZwVFUwUzRjUWVTY2N5ZHBlWmwKbTdsdG1EQ01PU0JYNjhBbjJycEhaNFU9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://34.101.147.46
+  name: gke_bpr-mvp2-production_asia-southeast2-b_commonservice-prd
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMRENDQXBTZ0F3SUJBZ0lRSUpPSlVwaVNWVUJ3eHNLQWZTajNLekFOQmdrcWhraUc5dzBCQVFzRkFEQXYKTVMwd0t3WURWUVFERXlRM016YzNNekU0TUMwNE1EY3pMVFEwT1RndE9ESTNZeTAyTnprNE9EQTFabVU0TmpRdwpJQmNOTWpJeE1qQXhNRGd3TURJM1doZ1BNakExTWpFeE1qTXdPVEF3TWpkYU1DOHhMVEFyQmdOVkJBTVRKRGN6Ck56Y3pNVGd3TFRnd056TXRORFE1T0MwNE1qZGpMVFkzT1RnNE1EVm1aVGcyTkRDQ0FhSXdEUVlKS29aSWh2Y04KQVFFQkJRQURnZ0dQQURDQ0FZb0NnZ0dCQUtISWRKbGhmaDVjVHRNclBwaG45UG9KWUFhMnZSUlR2eWlac0h6VwpUVGNUUG5DelZTcDdyeG1ra21RNkpKc1B6V1d1NHFBT2hXZmpjeURUOVNwMjVQK0dNckg5bG9Sc2I0b3N5VmNvCkFZWWNGcUVSSGIrMmk4L0pxaWNYZEtidWxKQzRzekYzQy83VCtDNjBqc0pGdC9FSHcrVDg3NCtwTGJKbFdYZG8KUEN4RlBCMHl4Sm04V2ErRlFCazFIV3R2bE9PQnRReDlFam9IVFI5Z3F5V3FMMERDMWJ0QmxrdXZGU003SGZPdApiNHFlOC9XNkRCbzB5ekJnMUhvZDJVV2tod3QvWnlJT1hiUUs0WTVWWEJ3d056cEY2eExtWG9WNnhqaURZYmRoCm9SZERyeUgyWWZPZGg0cFExckc0aEg4ODFwbGNBZVZrVjVYMlVmWjkzYVFTVUNrZzVjUnB4VVh3bTZtL2IxS1QKVEVzSCtEZWVtWjAycGxFK0Q3V2NTVzdTRVJ3WGpEc1lHODBHSHZ3ZTgremV4WkRjQ2FlQmZyWkdrK1EwTUpLdQpRK1RCZ2FoSlY1cm5EQ2lFQ2NPSkRmZU1LWFF1QnRNMEF2a0RIVnYvWDZqUjZwUnhVMHdBMHhCY2Fnd2kwUmJHClNDMGVFY1k3cDd1UWVUbC9TUElUNGMya0NRSURBUUFCbzBJd1FEQU9CZ05WSFE4QkFmOEVCQU1DQWdRd0R3WUQKVlIwVEFRSC9CQVV3QXdFQi96QWRCZ05WSFE0RUZnUVVzWFVsZTUzMFAweDhTeE9PYzlIN3E4MjhsQTR3RFFZSgpLb1pJaHZjTkFRRUxCUUFEZ2dHQkFFalh1VGZ3UEpNZmRpWXZOZ1Zrd1NsSTVsK2FIZGVOVXpkRXNUMGhpZ0RGClhaUjQ5NHdqakU2RmRSdTBzTXBNTHZXcjZjNWh6ZjBqSXB4TUVmQm1uQjRBYU5WUGNwL3hXaWYyZ3A1bGJsNzYKVExmdm1qb1BrcTk0UFJiSHJ5M3FIUG8xWFA4bEZqeVZHVzBLZlFTSW1kNVRpR1g2UnQ0R2M1T0xXRDhOKzlRNApWbjVnaFU5SEZKZHJId2tKM3R4VUk3emNzeE92aU9naHk5di9vQ3RWTzF5VXB4bk1VTk9KazBpQytpeG5WOWdQClFSdWNGaHZQYlp1T0pxY0paSzBnYnZCSXBCem5mekFLNk9nV1lKdjEzRDdnZUFlWW8xN2tqRklVTFEvQ3VUWXcKVGc3cWNaVGo5UHRYdUR3VDk5ZzMwVHhQbHBEeWthTExpcDRTam9nY0tXM2VoeUExVnkrMHd4eU1Pc0l2eFB0VwpUZmw2RzNFRzRVVm5PRjFvU0RXZHpZUExIV1RHcEtGUnZXUjVieEZBZjZQVTBRbFlIeHh4c3ZMc3NJeXRDMkQ4ClpFZkRFU2FydGZTTTM1dzN5SGJRV0NwVThqbHpOY2xNWHljZ2hveVA4UXJWUDdsQzRrSkFLak1yM0grQ0pWMjkKdkNKcVhtK0ZYK0NDWkNZRXA3SExrdz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://34.128.110.103
+  name: gke_bpr-mvp2-production_asia-southeast2-b_survey-prd
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMRENDQXBTZ0F3SUJBZ0lRS1ppak1rOGlsVXZrV2hUNXZ3dWwwREFOQmdrcWhraUc5dzBCQVFzRkFEQXYKTVMwd0t3WURWUVFERXlSak9URmtZakl6T0MwM09UTXdMVFE0TmpVdE9UazVOaTAyTXpReFlqVXlaR0prTlRRdwpJQmNOTWpJd016RTNNRFkxTmpBMVdoZ1BNakExTWpBek1Ea3dOelUyTURWYU1DOHhMVEFyQmdOVkJBTVRKR001Ck1XUmlNak00TFRjNU16QXRORGcyTlMwNU9UazJMVFl6TkRGaU5USmtZbVExTkRDQ0FhSXdEUVlKS29aSWh2Y04KQVFFQkJRQURnZ0dQQURDQ0FZb0NnZ0dCQU1HSGxOakpaWTNZMUUrYVR4bHRZbDB3Y3VWZnRSMXV1cWJUMmlHdwo2Q0Jta09FM0FKU01TeEluSm9yblhzQkJrVFNHQnBmK3BMUHJucDZDMTJ1cDB4WFFkT1BLQUowUmlySW5vS2VtClozaVp6N0xYaXJrMDBpc0tZeEtub01OTUNTV1F1eFJ4aVdyeDRIVno3SnB4NnJBc0R3bVRQUVgxZlJpZ2hnenMKMWR1WFZaOVd5VnIwMVI1SjErKzIvVWRBTCs0TEgzUTlLZ2FtZjc3aEh1TWlPTlIyVmVDTnVrZlZ2dWdXUWhQVwpSazhwaGhUU09rQmRSSDZsQ295VnBnVUlvTDl0VWdPNzdaUFhTWTNpRFdHMU0vL01JdzVRV1hJYmVMMGhLcWpQCkk0RXRvVjJSdzUyL1NQcXpkVEExUCsvQS92d29JVlB2N1JOeXd2YWZ1RGh5NUFzN2dNUVBqS2FTSkNBQzR4N24KQ3BDUEZEcnJTVFBwRzcyU0hMOU4zOTBnbHBtR2o2M2QzcG1Gd1pTTFdka3BBUnhtaUpOY3ZiMFlqRDFiUnplVQp5YTA3OVdIOGZLTlJmUXhqdSs0TllkQzRaaUdtR3RwdjE0WkE3c1JMSlJkMldTYStYTmI1MkkzQzRIL3FaaTBUClVCc3lHQWtwMDU3SGJ6MlFiVmtocGtKbnd3SURBUUFCbzBJd1FEQU9CZ05WSFE4QkFmOEVCQU1DQWdRd0R3WUQKVlIwVEFRSC9CQVV3QXdFQi96QWRCZ05WSFE0RUZnUVVOSG83WmJNWXU0ZGVwSU5LMittT1JHc05peTB3RFFZSgpLb1pJaHZjTkFRRUxCUUFEZ2dHQkFFOFVTamxObUtuSTBObmpaVEx1YTFHYXNGNTRIbit3Qm95RlZuTW1pQllaCjVIcjJyZHVHa0FvQTNMWW1LTlpCQnBXbmU0SkxMUGtYTzBaTnBybmRuOVdpV2FUajl5eHVGQVF3aHJhazJXL1oKN3hNMk1mU0xDdTNDRGhVaWlETzU3WGRQc1ZrR2EyWE40NmptTzVHVG9nVDBzUStOSVNPV1U2Zzd6WXAzVFQ2QwpmOWJhclJURVZ2Tm5qQUtUdHJiU1V2VDYwUWFoREhwOGZoTFVtNkRDNDdPZmFHbEg4Vm9jNmo2VDNnNnhCYW1yCkE4Y1ZhblR6VWhQVmRWM3lXeWVBZC9WcEZCTmJKSWFsSytzc0JWaFIxcXIxL3BBeC9RR253SnIxMkZ3d0RNU2MKNThHL0dMbmZiTWVnRlg3YmRaZkNFSFNPOWF1UnpBZ1hYbXJzcWlEYnRMUDJXOFJTcGhGVitGWlh0OTRwL0Z4RgpHU2N3cTRpZDZQTTNSRDJXUSs0S0FrcG5WK1pRdHVmS2hUYWF4YkFmOW1WZDRQTDRKQkdpSjRqMVJDeXRjWnJRCmZVMGx6eVMzYXdLcW5iYTN3a21NRE5EUkZkNTM5ZlJDWEZaMmdSdUxLTktZM2czV0EyYXlnVVB6aVVJRkxDOCsKaDcvSElRRk00S3dCUVpvUWdlZTRNdz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://34.101.204.251
+  name: gke_cats-gen2-c_asia-southeast2_dev-cats-gen2
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMRENDQXBTZ0F3SUJBZ0lRREttVHlFNldER2NSaEo0eUIxMEpRREFOQmdrcWhraUc5dzBCQVFzRkFEQXYKTVMwd0t3WURWUVFERXlSalpUQTJPV0U1WWkxaU5HWTBMVFF4WmpZdFltSmlOUzB3TVRNM1pUVTNNRE16WmpRdwpJQmNOTWpJeE1ERTVNRFkwTlRNeFdoZ1BNakExTWpFd01URXdOelExTXpGYU1DOHhMVEFyQmdOVkJBTVRKR05sCk1EWTVZVGxpTFdJMFpqUXROREZtTmkxaVltSTFMVEF4TXpkbE5UY3dNek5tTkRDQ0FhSXdEUVlKS29aSWh2Y04KQVFFQkJRQURnZ0dQQURDQ0FZb0NnZ0dCQUs5ckQ4UWd5dmxJcDFQYW13WnpLdGNWTWFJVkd6djhlcUZRZXNieQp4c3lKTi9oWmY0UG9TczJZZkpHRkRJYlIwQlVRN1RYM2V6ZmI1Smw1U256ek5KdGo0UE53Q01SekVvZmFNNG9sCjNhM3dPY2d0S2U4NE5aWTBBMUZQaW00bW9GbGJ2OHBqdXhzejl5NmJUY21uK29IMENVZEhmYjBiU1hYU0owQnUKTmVSWUNYYlNBVkRVUkFvRWpiWGdIcmR6dDdiYkZ5N2tGMHJOTUdzWmJTSStVbW1GekRBUEJ2Z052SXNpeThKRQpzS0dTMDlwZWNvbFFEQ2xDY2FFcVJzYTgwZmdpdTduY1N3WFc3TS9oajlpSlM1Z2pZMW9TdmlldFBtc3VIaTlMCmx4b3N1MWQ3dXBZS0JnN09VYmpsOHllVHpIL0pib1NYNGhsSDhESFpTc2NxcGIvaVlCMGh2ZU5WY3J2ZGxQMG4KQWdYSXpPRHBuSEl6Q2IyUmRrMnpKSmd5R3JmVnVTQzcvV21pWSs3VUxtVDdpT1UvbllrU2k0RHFUZnVXcFFONQp1dDdsTHZHMExIZzAzWXFDUTA5TTNMb0d4c2JuQkhvYjZzTTc5ZGxXU1Z2aGp2YnhOTVRDdDZuNVlaNVZ4LzRCCnI5SGhOcW9tYjU1L0kwT3lMTGt1Qy9sL3Z3SURBUUFCbzBJd1FEQU9CZ05WSFE4QkFmOEVCQU1DQWdRd0R3WUQKVlIwVEFRSC9CQVV3QXdFQi96QWRCZ05WSFE0RUZnUVU5K2VkYjYyNDM0SGVTL05sczdtM3d2NmwxRzB3RFFZSgpLb1pJaHZjTkFRRUxCUUFEZ2dHQkFGS1pMRlFPV3NNeVFzRzhZdEdjcWYwWDJMOVVObW1NSGtHV0FNT0tCTG1yCjQ0aFQ0YU56RGZRam9mQm8veHptY1VNSUhodnV3bit5cVF3Nk1ienRkZ2h4ZG9aYmhTUTZUNGpGdGYxQXpZWWQKTkFSdDUxY3JGQlJLY0liUDNwYm5WMnZYTWFPLy9WektUU3pnNmM1UGVKdVlIS3ZaM25Hd2RBV2FocEFzN1lWNgo0c1VxYWJJQVJvRWtQYUhVeTN6azVPTnl3NGo5V3JZcTNtWlN3U0xVYWFwZ3l3UGI3S2lDaTNuMjRtQzF1M0E3Cnp6VHgrOEhWMkxZRWhWSVptZ2hha0JUUllPeEpReWlLYjNnVWtoRlIxRUdYaDJuczFHUFhnZ2FyZE96VksveVQKVVZKeU9QaFFOWHg1eGd4N3Z2ZEFFcWVUdm5LZVdGQ01tRmx2eFRPb2dUQkMwSVU5MUpwWFJQRTNVZEQ5NjQydwpPbmpNNzVHM09QVEtlcW9QN3F5K2tZTGRaZVNoTW1Xd0dHbFltZmRZTENEWDVtdXdEOWlydUxDb1dFbUQ2OFlsCkpvb3ZWUWZuWk1Jc1JhYURDcjB2MW80eUxhMmxJRmhDZnVlR1Bpd3lvS0x2TWFGeTVObHpCZFpvUFVVSUQ3dUUKSDNSQ3B3NjVDaWZXZUdMdTdreXVVdz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://34.128.81.49
+  name: gke_project-vm-314308_asia-southeast2-b_miniapps-prod
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURLekNDQWhPZ0F3SUJBZ0lSQU50ZkcraEhIWFBrQmpickhMM0dXUGN3RFFZSktvWklodmNOQVFFTEJRQXcKTHpFdE1Dc0dBMVVFQXhNa1pUQmhORGs1TURjdE5EazRPUzAwWkRrNExUZzFNakF0WWpRNVptRTRPR0V5TkdZMApNQjRYRFRJeE1Ea3hOekV3TlRjMU1sb1hEVEkyTURreE5qRXhOVGMxTWxvd0x6RXRNQ3NHQTFVRUF4TWtaVEJoCk5EazVNRGN0TkRrNE9TMDBaRGs0TFRnMU1qQXRZalE1Wm1FNE9HRXlOR1kwTUlJQklqQU5CZ2txaGtpRzl3MEIKQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBbU5NdDFpMzVTT2sxV0xxNjUrWGxBTytLUy9KdWxVdU05TFA0c21OWgppOVhjMlpvQWFLdnZCZTNRaXFMNjhxdEoyVGp0eVNRR3VEWm9mN05CU0dDd0JhZXlkSjU2Sno1R1l3VGVBbDBOCmxPb0FBU25PSDQrWFUycGptWC9zbGJ0K21hNW82UVhyNTI4b04zRzdpTE9HMGRRUTRhc1poRkdiOWNKUStqbkgKanFxeU9wUjdnSUJuakdCREdNVXovVXBuQXNwdStrU1R3eW8vZE1saGNKT2pKT1RnbXI5N2xIcjNrRWR1MUplWQpkRVpaTTlsRE9rclBWYkJtanBrei9pWEdFZXkveENITENNbEhJM1kxWElyTE5SVWNVNkFMOWNZZzRIczJLY3VWCmRNdlpPcWhhV2VSaUVjUWZlYWcyMDdzdS9GQVd5dDgvVVdKTzYwZW9rZFozSndJREFRQUJvMEl3UURBT0JnTlYKSFE4QkFmOEVCQU1DQWdRd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFRmdRVUxJYWo3eGlYcGdvaQpENnBlV0tXUXJLSFRJMkV3RFFZSktvWklodmNOQVFFTEJRQURnZ0VCQUdHS3V4eW5DdWlRckEralQwUnZHWDZ5ClJFZy96NHNsazYzc05JbTA3NFlNSFFQVlJmbk9vMURCMVMwTDFiRzRNbjRMZU9zU2svQVFCc0w1M1NZai9hdzMKbjhaS0JEcUltcXd2YkRZT3lEM0dPRTcxWU9ZZStIMHovQ3FGa3FmcmMrRmhTbXc5ZUdKMm8xTVdoN3JIeG9ISgp2blRYWTFlVmNyaHBQa1FNdGd5MkVZMVJ1YnJCbytub1oweGFMU05RRVRHYmFFR0MxQ2VmUFN6bUwveWRwRlNaCkdqVFJUV0hRaEFzODQ4VmsxcUVtcUVmOFMrYUhDd2lXZDZLSlVweUE0ZzlxeGU2S3pMZHVyZVJPbVJ0V25pZ3AKMVlsZVM3ak4va1Z6T2lKN2FGWnQwcjN1Y0VZUHM4QUc1emtrWWMzYTBSeWZKN0RUYWpnUVFkZVhoRTZyTTZ3PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    server: https://34.101.72.86
+  name: gke_tyk-api-gateway-324602_asia-southeast2-a_tyk-gateway-dev-uat
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMVENDQXBXZ0F3SUJBZ0lSQUt4YmFiRER2b2ZnTTRuaEY0VUlJdHN3RFFZSktvWklodmNOQVFFTEJRQXcKTHpFdE1Dc0dBMVVFQXhNa1lqazJOVFEyTWpJdFkyWTVNaTAwT1RFNUxUZzVOMlF0TWpRMk1URXhPV1UwTlRregpNQ0FYRFRJeE1URXlNakF3TWpFMU0xb1lEekl3TlRFeE1URTFNREV5TVRVeldqQXZNUzB3S3dZRFZRUURFeVJpCk9UWTFORFl5TWkxalpqa3lMVFE1TVRrdE9EazNaQzB5TkRZeE1URTVaVFExT1RNd2dnR2lNQTBHQ1NxR1NJYjMKRFFFQkFRVUFBNElCandBd2dnR0tBb0lCZ1FESm40K2lyQ09NWkJCMUxyMk0yWVlZZjFsbUtlVnBFcHc0aUd3WgpRbjd2aUlBcC81TkdOdkZTY0l4VzhQb1I3NzJKWStjajgrUEU2emF3RVptVnR5bjR3RWcxeFVzSTBhY01GYjE2ClpuNnFEZy9vdXVjdW5WRGw5UTF4MkpCWDlQQ080SFExdm0wc1kzUlliQXVNc2Z2TCtJQXF4dFAxOTVaUXl5VlcKdlh5TzJBakpLakpxaDd6Z3kxRldkTVdYNkUyVGU2cmdTOGNrUm5taEpteUlnbm5Pai9HRlMrc1lhOXpORWRwaApLWnpHT0o5aXVFR2wvME5vNi85NytlNTAzcHdvMEZrUy9pSGV2VXVCMEY2dEhSaVgwc0FTcjJ6K3JLQ1I2dFIxCnFQL2ZVcnF4aDFWT1k3ZzFEdUs0QVNkdEt3cVg4dFVSL0R5cGw3TSt1WnNJRExPSEhqeE5jR0RLMm5RcjQwcWsKaUR0Ym1ubWQ4WFpqQ3duZUVqYnJqRWZrRHpIMlh2Zm1CdFBuWEIzNURMMkZEMi9KU3BPTmQ1amJDUU9la2o1MAorV2s1eDByOTRKMTEvNEZJa2kvRWZvL0dCM1ZlSlU4SkZ3UHVTRGxZREtBT2l5MUd0RmNVUXRlQVFZOGloakZ6CjAxL1hQbjFyQmdzSm8zaXgxVnpiRk5mc01JMENBd0VBQWFOQ01FQXdEZ1lEVlIwUEFRSC9CQVFEQWdJRU1BOEcKQTFVZEV3RUIvd1FGTUFNQkFmOHdIUVlEVlIwT0JCWUVGSVV5UWx4WTg2d05FajIyWkltdHVwQ3RzQTB4TUEwRwpDU3FHU0liM0RRRUJDd1VBQTRJQmdRQUhrK2JxKzlidzRMVzVmNTNnSVI3dzk2RjQrcTZWVUdQOHJSbnNHeVgyCllQVk5zMVZrdGtzMTRqM1R4V2dMTVlqT2RrTFR5NlZkdjVwZUp2ejdlSzk4M3Q2aVkrQ1djQ1gvbTdzVjhUU3EKZlA4cVNiWi9JVHhKTk0xL29idVRqK1V2Q3B3dUw3K3dyRzlSeGxBT004dWxFNnY3OFBlcjRnQXUzWTdhem42VApDNEI3QUV3MHVhNGxnMU5Nbno0UWZhY3NpS3MydWhBbjJDeW95eVVyNkVFWlV3VmtUL0RaampsczAyN0F3OWlECmxRdERsRTdCVGRvbk45U244L2pTQXFETTVRZW9vSUhmdklQUytWWnI1c1ovejgvcXpReVJqVkZNOWRyaGpBRWcKYUFhUlZnMGd5eWY4a0JWRW9ENi9RbUwvNC92Zjh2a2xaYTJ4RTd0SmtGR0JhOHBsWUlrM2JtcVFxZFR5aExSawpYMVBnQ0F0WGJ3SEdJcHlyaW0yNXhwd2Y1UVVlbUV4MGdJNlhhOVpqczJ1Y3VYZThQeHdMUnp5bHB2TFYzK3YyCnlIVUdiZVJPQTRWN2IxNldMclBnSDBEZXA2NE5ySHE2U0pMaGxGVityWjh3bGFDRDNNeDlDbkMxbWtqZFZqSEgKdHV4bThHd1RRa1FRUkJ2MWk0VExKQWM9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://34.101.181.170
+  name: gke_tyk-api-gateway-324602_asia-southeast2-a_tyk-gateway-production
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMVENDQXBXZ0F3SUJBZ0lSQUpPS2JkcVUyaXEzZjhBbmo2a2QxRnd3RFFZSktvWklodmNOQVFFTEJRQXcKTHpFdE1Dc0dBMVVFQXhNa01XTTROMkkxTWpndE9HRm1OUzAwTWpKbExUZ3pOV0V0WldKa1pXTTBaamd4TjJGaQpNQ0FYRFRJeU1USXdNVEE0TURBME1Wb1lEekl3TlRJeE1USXpNRGt3TURReFdqQXZNUzB3S3dZRFZRUURFeVF4Cll6ZzNZalV5T0MwNFlXWTFMVFF5TW1VdE9ETTFZUzFsWW1SbFl6Um1PREUzWVdJd2dnR2lNQTBHQ1NxR1NJYjMKRFFFQkFRVUFBNElCandBd2dnR0tBb0lCZ1FDOEdJNmVNdXIyR05WbGNPaFA1cWV0K1ZwaklGbVBJTW9RSk9lZApMNDNvVk5FVFNWT0pybTB2dWUrTmZ3ZGRtazFWMXplaDVJcTFCTGxUWkZZK2w0UHRDc0JvbCtzaGR1K0FKRm5sCkZQUExOZnI4UHNaK0lnZXl4S25FWm9penJhUUZCMU9uajJYWHNkVnBNRXdkUEhjUkhZNUJubHRRWU1OTS9uMGYKYmQwV3IweGtzdEhEbW1pYiswbW5rR09oTllrVHc4elFrTXI5NXVoZkVoZG1LcjB2WEhuRXFUc3k2Wmx2UXJTWgowT0N0Y1JKamJVdUlKV3ZqL2lTblpmVlNUNnN6akZHUGJLRjBNeXhzZnlyTHY0SlEvcmdleDZmaC82K0c1U2FpCi81b09BOTlTY0dYa0VIWURVUVhBL0hIaTdBMlhyU1FOTUo1M0pEblZQY0plUkY3L0drRm1rWnprbDVDLzBxVXcKRnZidzBjMzN0UVhFelplekR3bXdtNWZtdE1WVDk5VXBIMkNMZnllL0JpRW1rdmNvNDJRN0IrN252R2FqN0FSbQowZG5pNWRxZEM3MmV1VkNuRjYvS0w5UXZVSXdKdy8xYXloWVUvL3RBWjFkbWE0REJtdk5ZbTFDTkwwWEpFNVI5CjNIbExYNEladUgrT213TXFYM2ZpNnBYOWxCa0NBd0VBQWFOQ01FQXdEZ1lEVlIwUEFRSC9CQVFEQWdJRU1BOEcKQTFVZEV3RUIvd1FGTUFNQkFmOHdIUVlEVlIwT0JCWUVGQzR3cjA2ZmZTcnNaL0p4Q1BkUU5GMmtlK2hyTUEwRwpDU3FHU0liM0RRRUJDd1VBQTRJQmdRQitZRmhHMktqRzEyTU9CQkJLZUxnZCtDQXdLV1g1N1hRNHZMWFhvV0xNClRxR2UwcUZsMDJBbG9YMCtOS0hrZXN1dStFelJGdzQ2TkxYOGYzS0M0d3JJVC8yRUgxSWNTTlp1NmdwNkt6cTUKRVU3TWo0VHlzUUIvUHUwaVl3WlVSRHhXRnlBU0psZGY4c2VqdFI2Y21UU25Rc29qRnZ5UzlhaUpCckxCQ1EzVQo2bDd0SDgrYTJpOGc1RllZMzZpK2dWTUJYdVZ3aE1wV20xZUlXTUdDRkQ5ZUhtb0dVOHdyM0ZzeWlTRm5MRVlMClg0YTFYbGJMbVJraGlIM3lNQllRQS9FMi9vYTFBSjVYNWQzTmxNRTUyWThDOVNyM0o0NG4xR3hxQm1TdDF4RkEKWWQvbGtqcHVBTDVPT2lvT3UwbXgxeHordi9ySVE5NWt0ZU05OVZFOXZ6VkFYYXc0NVZLQUVjeUNCT2h0bXFnMwpUSS9Ma3ppc0VXZE12YXd2aVRWbzlqSlNqOGxRdlNLeHVwV3lmdkFzUGUrUFg1eWwrNmJwS1ViZXNUUmRXL3crCkxDOTF3bHVBVkFRbk8vZDhlSE90QTlQbThCUVowdk0rNXdjdWRTRXlJMldWejlqSnErL25iWkhFYnpjWlUva0cKWVhUTE4xZUV6M0FuS3M2WGFDTXVqak09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://34.101.233.99
+  name: gke_bpr-mvp2-production_asia-southeast2-b_uicredit-prd
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMVENDQXBXZ0F3SUJBZ0lSQUxydHk2S2lndllxQ2daV0ZDN3pjYm93RFFZSktvWklodmNOQVFFTEJRQXcKTHpFdE1Dc0dBMVVFQXhNa01ETXdPRE0xWXpJdE1UWmtaQzAwTWpBNUxUZzBZak10TlRBek1qTTROV1JtTkRZeApNQ0FYRFRJeU1USXdNVEEzTlRrek5Wb1lEekl3TlRJeE1USXpNRGcxT1RNMVdqQXZNUzB3S3dZRFZRUURFeVF3Ck16QTRNelZqTWkweE5tUmtMVFF5TURrdE9EUmlNeTAxTURNeU16ZzFaR1kwTmpFd2dnR2lNQTBHQ1NxR1NJYjMKRFFFQkFRVUFBNElCandBd2dnR0tBb0lCZ1FEVXluUFlGNFN5WjEwVWxPc2pDelFzWmZmVGlIbGFaY0hPeWFXawozdFpOZ0prRGVFZFNxNFBLRWhOVTZuS2Ztd2prZUQ3TUZ0UjJQaWpBd1BvMGRjVWRqeWhhdUNXVkdsMjVEbU91CktIVWJGcElHblBNVkdWTjdVWXY5RFIzVDBjS0tMRHhVa29wblBaVmxzdW9tT05yaXhBLzlEczZkVGtXNjlNOEgKQzBubEo0b0VFWC8vWmVmNkdPVnBrS0JtQ2x1VlBVOUdLc0lPTisxci91OXlQRTNoMXV1QTNaMFl3REcyNFo3bwpneVV4bC8vOHJDNDRIMk1yN2k5dXpXdkNmRXRsTkdVYnQ5R0RESTVqeEFDSEpQd0tzSlZMU0h4L1hqcG82d093Cmx2K0hZVFNEODlxQUlCR00yVk42b0oyYU8rdlFzWTBEbzQrQnY0NXkyckRaS2docEJwdjBHYUZTaEk2QkFKcGcKSnNaNVhJU2orZzQ4bTk5UU43QXJxcGJaNTB3QnR3RUZhSXdsUTV3MFRBbGs5czIxWXQzVStJSU1HVjVxZE8wYwppcU52L3dXNmJlRmxPazdrUnJYb29neVVnYy85WFNWVEJIcmZDOTZxeWRMeVRuRkJETjhJd2Y5NEk2VjNuNXNYCk5lTklxUXE5TkQ3V2xZK3FjRnZVSE0vTlU2a0NBd0VBQWFOQ01FQXdEZ1lEVlIwUEFRSC9CQVFEQWdJRU1BOEcKQTFVZEV3RUIvd1FGTUFNQkFmOHdIUVlEVlIwT0JCWUVGSGI5cmNjR0RRSVVjVmhPU2FxdkV4cmp1TDZjTUEwRwpDU3FHU0liM0RRRUJDd1VBQTRJQmdRQnA0RXZFNVhZOEdHemJNMXFsVk5RSFJqcXVEbE9PYWNEMnJSNU9VRXFMCk1ZK2tGRHdJOHdpR2tZK1ZEN1htSmtZQXBDNHFxUXRsSTdHSGdnWjVicytVUDdBanYydjd0Y01TNnhubkZzL1IKL2Q1M0pId0FycnVHUjR6TUlicTdBajF2SS8vZXNFOEM2ejIzc01HQ0ZJYkR6b3p0d0VmUDRqRmtFemdZYnRUWAozS3g5L3BWVE50TmdiTmFjWGxRR04yRlBiTDJRT0FHUGFOSi9XaFdBN1JqTVp2U0NZUFhmdkR5VlBjSHJrZHNMCktNRldoMmYrY01zQzVZWjlnRjg5Q0UzellKdDhONmxKUlZ4azVrV2liTTBYY1JPZzJQbkhINTVQa1hJZ2dRNHcKbjY1ZjFXNE82cVkxMy84aG4xSjA2bUxKTjBONHV6OG9xb1dnTHpuWlh4dG5wc0ZzRU9yNDNkcXIxckZLQ0I1UQpITlJic2g1L25pek1uNHpOR3lqRFNhMmp3cjZXODgxdlp1RUFBR1FlcjcrSTBpWVpQTUpxK2k3V0JnVU5NRmM2CnJ5MVJjUUQybzB2YVk5QTdXSXFZdmV2aDdxdldVazdzUnZQS3F2VXoxa3QrWGs2K2xGOWk2WGVscjZseWZXWkoKeEFGRXhMNWJKdVRaell1SzE1NDZNWUE9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://34.101.210.103
+  name: gke_bpr-mvp2-production_asia-southeast2-b_riplay-prd
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMVENDQXBXZ0F3SUJBZ0lSQU1rZjRxREFvazJDWk5iNkFVNE9jTnN3RFFZSktvWklodmNOQVFFTEJRQXcKTHpFdE1Dc0dBMVVFQXhNa09EazJZVEZrTkRJdE5HRmxOQzAwT0dSa0xUZ3haRFV0TURZM1lUZzNNalZqWVdWbQpNQ0FYRFRJeU1URXpNREF6TlRZeE9Gb1lEekl3TlRJeE1USXlNRFExTmpFNFdqQXZNUzB3S3dZRFZRUURFeVE0Ck9UWmhNV1EwTWkwMFlXVTBMVFE0WkdRdE9ERmtOUzB3TmpkaE9EY3lOV05oWldZd2dnR2lNQTBHQ1NxR1NJYjMKRFFFQkFRVUFBNElCandBd2dnR0tBb0lCZ1FDbndsbXkxcERpZXZEMlZ0YXI4UnF6U211WXZRUCtSVWp5U2c2SQpjNlVEMSt3bVBkQkROak5seTZYaW1TeWlyV2k2YmV3ZGdsVjJTNDZUMTdsVzd1ek9mWkZidEcxbEk5eGFHZDhoCmVXazFSTXZEQi9mdjZxSnkyRnJkbGQ3eERQM09FTFU3SXltSUEyQ2p2R3c2Z2VqcnFyRzBXQi8vZUNtRTI1b0sKN1JQT2ZvVktlQm50TEtnZ1hncEFldzVoeCthK09kNktCdEM0akYvZ2dPTWt2NjdWbVk4VGJyVXVBVnlmS2tkSApkZ3kxUzZmZ2d3b3VYeTlPKzV1Z2UyM3hXbENsUUZEdER2WGdENXdFMFdBSzNrU1BNSFFHZHBkSENOSDh6VFp3CjRhMkdaTTRWNGdYT0FEM215OXEyM2RhTnl6bGF5NU5jNmE1azRQUGg3c3Q3SGZWek1VUmt3eU9va1U1T09ZZVoKaGtsdGhkdHRBUVZiWVkyanlXNkZ1bDBGU3I4eGFNdzFxVU54YU84NmpWUDlJd2RnL0hibjlpZkk2RnkvVGdrUgp3YmloZGdVdm1tUStMTUIyYVhpb0U0YW9wdmlFMVhONCtianBUclM2UnV5ZzJySHZRQVc3ajVPVnFyNFg1Ymo4ClBUZ2ROdlBPUGNYYzBuQ1V4N1gzN2dFRGZVc0NBd0VBQWFOQ01FQXdEZ1lEVlIwUEFRSC9CQVFEQWdJRU1BOEcKQTFVZEV3RUIvd1FGTUFNQkFmOHdIUVlEVlIwT0JCWUVGUGdXTU15Y25HVENQcDVQR3hIMU1NaU8wQzl1TUEwRwpDU3FHU0liM0RRRUJDd1VBQTRJQmdRQU9JNHoxMi9ZWHdreUFHMVZHeXB5QXkydGFtb2xLTVd6Y1JIMHNNOWZFCkE2ZGY1aGJ4ZHJkL3RpQ2lPTEo1SnArZU4vYm5RcGx3cVJCZU10aWRXbXBsUFlxTDJHZ2E0V3R0VVZlMnJNbmoKa1lHZVc5UzZTNnlCMnVrcG9WYmlEU2VNUXNVWlF0T3JrNU1wMUlSL0QrL0pZcldsWG1hREJ5WE0zR3E0SkNuNwpqa01qNDdzRERtYVVIOE9Wci8yUEQrOXNiY29LRVlGaGZkQTVnMzN2cFJULzlhblJCNDFVTkNwWXRicUZVMktvCkE4UUZQYkFmY09PZy9MQmVYUUtzUTBMTzgxekxaOGR4R1Q3K2ZJaFA4eHR2MG9sYnkzelkwQUEwZEhnNUtyRWgKbDlmVUJiM0NhbXhqZlVDVDNjWTdyVklkblBQOG8raDl4Tm80aUdLdVJxcTJEWWljTWc1a0FsNnNsVWhzWGxsVAp6YzFxelF5YmE0dGs4djgwTzBjd25jZFo0N1hMOXBTSzBNVmlYZGZoSHVuZzVUM3h2eTYyZG1LNVFSekdSczdKCk9vVS9GdGp4eEpDYldvbkJ5ZTZCcHFpcXRRUFFlTjNvQW1rT2Nwc1F4NHAvUjJDSWFKZEZCNlUvZ2R6d2FiVDMKZEFvaUg1V2xncnBvYm5Tbkt3MDNudWs9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://34.101.248.124
+  name: gke_bpr-mvp2-production_asia-southeast2-b_leadengine-prd
+contexts:
+- context:
+    cluster: dispatcher-stg-ali
+    user: dispatcher-stg-ali
+  name: ''
+- context:
+    cluster: kubernetes
+    user: '263472874411162053'
+  name: 263472874411162053-c1cef4b6c7abe40ee87fdab36609de704
+- context:
+    cluster: api-ocpdev-jkt-adira-co-id:6443
+    namespace: abids-dev
+    user: 10083509/api-ocpdev-jkt-adira-co-id:6443
+  name: abids-dev/api-ocpdev-jkt-adira-co-id:6443/10083509
+- context:
+    cluster: admin-stg-gcp
+    user: admin-stg-gcp
+  name: admin-stg-gcp
+- context:
+    cluster: billing-stg-gcp
+    user: billing-stg-gcp
+  name: billing-stg-gcp
+- context:
+    cluster: bpr-dev
+    user: bpr-dev
+  name: bpr-dev
+- context:
+    cluster: bpr-dev-ali
+    user: bpr-dev-ali
+  name: bpr-dev-ali
+- context:
+    cluster: bpr-dev-gcp
+    user: bpr-dev-gcp
+  name: bpr-dev-gcp
+- context:
+    cluster: bpr-uat
+    user: bpr-uat
+  name: bpr-uat
+- context:
+    cluster: bpr-uat-ali
+    user: bpr-uat-ali
+  name: bpr-uat-ali
+- context:
+    cluster: bpr-uat-gcp
+    user: bpr-uat-gcp
+  name: bpr-uat-gcp
+- context:
+    cluster: common-service-stg-gcp
+    user: common-service-stg-gcp
+  name: common-service-stg-gcp
+- context:
+    cluster: credit-stg-gcp
+    user: credit-stg-gcp
+  name: credit-stg-gcp
+- context:
+    cluster: dispatcher-prod-ali
+    user: dispatcher-prod-ali
+  name: dispatcher-prod-ali
+- context:
+    cluster: dispatcher-prod-mvp1
+    user: '248251263816630501'
+  name: dispatcher-prod-mvp1
+- context:
+    cluster: dispatcher-stg-gcp
+    user: dispatcher-stg-gcp
+  name: dispatcher-stg-gcp
+- context:
+    cluster: gke_bpr-mvp2-production_asia-southeast2-b_billing-prd
+    user: gke_bpr-mvp2-production_asia-southeast2-b_billing-prd
+  name: gke_bpr-mvp2-production_asia-southeast2-b_billing-prd
+- context:
+    cluster: gke_bpr-mvp2-production_asia-southeast2-b_commonservice-prd
+    user: gke_bpr-mvp2-production_asia-southeast2-b_commonservice-prd
+  name: gke_bpr-mvp2-production_asia-southeast2-b_commonservice-prd
+- context:
+    cluster: gke_bpr-mvp2-production_asia-southeast2-b_survey-prd
+    user: gke_bpr-mvp2-production_asia-southeast2-b_survey-prd
+  name: gke_bpr-mvp2-production_asia-southeast2-b_survey-prd
+- context:
+    cluster: gke_cats-gen2-c_asia-southeast2_dev-cats-gen2
+    user: gke_cats-gen2-c_asia-southeast2_dev-cats-gen2
+  name: gke_cats-gen2-c_asia-southeast2_dev-cats-gen2
+- context:
+    cluster: gke_project-vm-314308_asia-southeast2-b_miniapps-prod
+    user: gke_project-vm-314308_asia-southeast2-b_miniapps-prod
+  name: gke_project-vm-314308_asia-southeast2-b_miniapps-prod
+- context:
+    cluster: gke_tyk-api-gateway-324602_asia-southeast2-a_tyk-gateway-dev-uat
+    user: gke_tyk-api-gateway-324602_asia-southeast2-a_tyk-gateway-dev-uat
+  name: gke_tyk-api-gateway-324602_asia-southeast2-a_tyk-gateway-dev-uat
+- context:
+    cluster: gke_tyk-api-gateway-324602_asia-southeast2-a_tyk-gateway-production
+    user: gke_tyk-api-gateway-324602_asia-southeast2-a_tyk-gateway-production
+  name: gke_tyk-api-gateway-324602_asia-southeast2-a_tyk-gateway-production
+- context:
+    cluster: lead-engine-prod-ali
+    user: lead-engine-prod-ali
+  name: lead-engine-prod-ali
+- context:
+    cluster: lead-engine-stg-ali
+    user: lead-engine-stg-ali
+  name: lead-engine-stg-ali
+- context:
+    cluster: lead-engine-stg-gcp
+    user: lead-engine-stg-gcp
+  name: lead-engine-stg-gcp
+- context:
+    cluster: lead-prod-mvp1
+    user: '294264440162276828'
+  name: lead-prod-mvp1
+- context:
+    cluster: lme-service
+    user: '232603653829443064'
+  name: lme-service
+- context:
+    cluster: api-ocpdev-jkt-adira-co-id:6443
+    namespace: ms-clarcats-uat
+    user: 10083509/api-ocpdev-jkt-adira-co-id:6443
+  name: ms-clarcats-uat/api-ocpdev-jkt-adira-co-id:6443/10083509
+- context:
+    cluster: partner-prod-ali
+    user: partner-prod-ali
+  name: partner-prod-ali
+- context:
+    cluster: partner-prod-mvp1
+    user: '206362146885085324'
+  name: partner-prod-mvp1
+- context:
+    cluster: partner-stg-ali
+    user: partner-stg-ali
+  name: partner-stg-ali
+- context:
+    cluster: partner-stg-gcp
+    user: partner-stg-gcp
+  name: partner-stg-gcp
+- context:
+    cluster: riplay-stg-gcp
+    user: riplay-stg-gcp
+  name: riplay-stg-gcp
+- context:
+    cluster: sales-prod-ali
+    user: sales-prod-ali
+  name: sales-prod-ali
+- context:
+    cluster: sales-prod-mvp1
+    user: '248251263816630501'
+  name: sales-prod-mvp1
+- context:
+    cluster: sales-stg-gcp
+    user: sales-stg-gcp
+  name: sales-stg-gcp
+- context:
+    cluster: seller-apps-uat
+    user: '263472874411162053'
+  name: seller-apps-uat
+- context:
+    cluster: survey-stg-gcp
+    user: survey-stg-gcp
+  name: survey-stg-gcp
+- context:
+    cluster: tyk-ali-preprod
+    user: kubernetes-admin
+  name: tyk-ali-preprod
+- context:
+    cluster: tyk-ali-prod
+    user: '229586672889841318'
+  name: tyk-ali-prod
+- context:
+    cluster: tyk-dev-ali
+    user: tyk-dev-ali
+  name: tyk-dev-ali
+- context:
+    cluster: tyk-prod-ali
+    user: tyk-prod-ali
+  name: tyk-prod-ali
+- context:
+    cluster: gke_bpr-mvp2-production_asia-southeast2-b_uicredit-prd
+    user: gke_bpr-mvp2-production_asia-southeast2-b_uicredit-prd
+  name: gke_bpr-mvp2-production_asia-southeast2-b_uicredit-prd
+- context:
+    cluster: gke_bpr-mvp2-production_asia-southeast2-b_riplay-prd
+    user: gke_bpr-mvp2-production_asia-southeast2-b_riplay-prd
+  name: gke_bpr-mvp2-production_asia-southeast2-b_riplay-prd
+- context:
+    cluster: gke_bpr-mvp2-production_asia-southeast2-b_leadengine-prd
+    user: gke_bpr-mvp2-production_asia-southeast2-b_leadengine-prd
+  name: gke_bpr-mvp2-production_asia-southeast2-b_leadengine-prd
+current-context: gke_bpr-mvp2-production_asia-southeast2-b_leadengine-prd
+kind: Config
+preferences: {}
+users:
+- name: 10083509/api-ocpdev-jkt-adira-co-id:6443
+  user:
+    token: sha256~Vo561N_6I4kXl_1FEvGmI0asJ9nkPQFPAQWRDawBzXw
+- name: bpr-dev
+  user:
+    token: eyJhbGciOiJSUzI1NiIsImtpZCI6ImdlU01pa2Uwd19DNHNfdTM2TUFZVDYtUzJCTFJkTVRtcUU3Qzg2bnRndTAifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJqZW5raW5zLWRlcGxveWVyLXRva2VuLWxqNzI0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMtZGVwbG95ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiIzMzRhMWM3Ni1jYmI2LTRiOWYtODUxOS03YzQ2Zjk0ZGMxNDQiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06amVua2lucy1kZXBsb3llciJ9.Ee306BQMI-6iH7_GZuaJcXfhCGX93Bl5UO7eTNvcpmZfk_atjs7dG4X3pcbDggHnXdTI62-yBrhoYtWwQpF5S93vl6fJJGxHZzq69hcVvUTQN3hQoY2zJd0ValP_t2JZRh3_GQdxtqZ563qV7Nlvgt2IkW9VFT8Yj8jYBqlUDcXcsxFWMsnxl6asmRO8Gg9F35GBw2GmJFtHo4PSdIrtYkkvhaSUL9DRentG_BKAm1V1bC0I3Rq3k2J93dpM5c76nEh9-WPfAd5xVxJxV86GZpcAi5HTUXBKH76jMCKrHKkujY5OVfpj-PQ8JjUuqa82R8HtlV_jVpPz7oS51YCDww
+- name: gke_bpr-mvp2-production_asia-southeast2-b_administrasi-prd
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_bpr-mvp2-production_asia-southeast2-b_billing-prd
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_bpr-mvp2-production_asia-southeast2-b_commonservice-prd
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      command: gke-gcloud-auth-plugin
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      provideClusterInfo: true
+- name: gke_bpr-mvp2-production_asia-southeast2-b_dispatcher-prd
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_bpr-mvp2-production_asia-southeast2-b_partner-prd
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_bpr-mvp2-production_asia-southeast2-b_sales-prd
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_bpr-mvp2-production_asia-southeast2-b_survey-prd
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      command: gke-gcloud-auth-plugin
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      provideClusterInfo: true
+- name: gke_cats-gen2-c_asia-southeast2_dev-cats-gen2
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_mvp2-non-prod_asia-southeast2-b_administrasi-stg
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_mvp2-non-prod_asia-southeast2-b_billing-stg
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_mvp2-non-prod_asia-southeast2-b_bpr-dev
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_mvp2-non-prod_asia-southeast2-b_bpr-uat
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_mvp2-non-prod_asia-southeast2-b_commonservice-stg
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_mvp2-non-prod_asia-southeast2-b_dispatcher-stg
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_mvp2-non-prod_asia-southeast2-b_leadengine-stg
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_mvp2-non-prod_asia-southeast2-b_partner-stg
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_mvp2-non-prod_asia-southeast2-b_riplay-stg
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_mvp2-non-prod_asia-southeast2-b_sales-stg
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_mvp2-non-prod_asia-southeast2-b_survey-stg
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_mvp2-non-prod_asia-southeast2-b_uicredit-stg
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_project-vm-314308_asia-southeast2-b_miniapps-prod
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_tyk-api-gateway-324602_asia-southeast2-a_tyk-gateway-dev-uat
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_tyk-api-gateway-324602_asia-southeast2-a_tyk-gateway-production
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: gke-gcloud-auth-plugin
+      env: null
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+- name: gke_bpr-mvp2-production_asia-southeast2-b_uicredit-prd
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      command: gke-gcloud-auth-plugin
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      provideClusterInfo: true
+- name: gke_bpr-mvp2-production_asia-southeast2-b_riplay-prd
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      command: gke-gcloud-auth-plugin
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      provideClusterInfo: true
+- name: gke_bpr-mvp2-production_asia-southeast2-b_leadengine-prd
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      command: gke-gcloud-auth-plugin
+      installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+        https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+      provideClusterInfo: true

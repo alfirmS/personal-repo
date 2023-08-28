@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://34.101.126.171
+    name: credit-stg-gcp
+contexts:
+  - context:
+      cluster: credit-stg-gcp
+      user: credit-stg-gcp
+    name: credit-stg-gcp
+kind: Config
+preferences: {}
+users:
+  - name: credit-stg-gcp
+    user:
+      token: eyJhbGciOiJSUzI1NiIsImtpZCI6Ik5TS2ZvMnBiRFBJbGR4VFhKclJfaWI0LThmb0FVR0xwcDhtRVNLbGFSWTQifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJqZW5raW5zLWRlcGxveWVyLXRva2VuLWJic3JkIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMtZGVwbG95ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJkZjllYjc4NC03YjRkLTQ0MTgtOWIzNi02OWMwMzA1OWUyMWYiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06amVua2lucy1kZXBsb3llciJ9.hN1AYnbBP_5Nk7DuhQpN1U4JugAhM-7mC1qo4sBYtRCHdEsgLbjeBoLl4ohGX0KG_5xowHhHvUYeDzP50WNkS51eAwxyMzV6V1bU75Wz5s8UnW-HGrKCfKWYP-cjkSAEkFRf7tuXnGMq_5p4Z-FDrc3Ua28mapGYqv1ma2Nf0hvMqZ4SlpFsc7W5u9LfGGs_JyiDWzZI5h5P2yHU8T8vKgAMBpcFJBxBNemSzoP-ocHNetp89nzhoVfn8hUM3b5XbYyMUy_zidO_NmAc3j4nem6n1JpITQil81Qa0NdhsdXQAmhECUE88Rqh0cewAC0yjJoGKSQ_VmNuuI-ZcMS_Cg

@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://34.101.214.159/
+    name: billing-stg-gcp
+contexts:
+  - context:
+      cluster: billing-stg-gcp
+      user: billing-stg-gcp
+    name: billing-stg-gcp
+kind: Config
+preferences: {}
+users:
+  - name: billing-stg-gcp
+    user:
+      token: eyJhbGciOiJSUzI1NiIsImtpZCI6IlVhM2tIaW9la3pQVVBjTEs2NWx5R19RV1JsNE9PVVRlYWxZR25Yd043Tm8ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJqZW5raW5zLWRlcGxveWVyLXRva2VuLWJiYjV3Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMtZGVwbG95ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJkMTMwNTkxNy0yMzk0LTRjN2ItOGQ0Yy1lZGZjY2MxZjQ3NmYiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06amVua2lucy1kZXBsb3llciJ9.swCg5dMz1Svhh2Ebv7PCTmWWu8DUSYaT744NqSXDEc7Nb2u2-vCRwv-8ppIuu_Of2Fqr63mQtl449Mu0GWAkGxESj1Hqs5dSQ0T1tEwnyYY-T8znsOH4BkURMMi3zUc0rBB9CZ12nSnNRUpcI7yxXoPDTF4F383UtbO-1OAtgknsk851FsQIgHd_H51kcCOWM5G6Aosl0uTDB3saUj7E4p-7xB0kH0rAm3sw-NAXD8aL8eE6wpXwNwlmhfn7qjUBVtOmrfk7l0td5oMxNG0p0GA91zdlA2O3OONvKRLHp4TFXI_k-KZa3sqOo2JXst2Qz-3tnzVbnRrogN31C7f9eA

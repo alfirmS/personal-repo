@@ -1,0 +1,18 @@
+apiVersion: v1
+clusters:
+- cluster:
+    insecure-skip-tls-verify: true
+    server: https://34.128.127.228
+  name: admin-stg-gcp
+contexts:
+- context:
+    cluster: admin-stg-gcp
+    user: admin-stg-gcp
+  name: admin-stg-gcp
+current-context: bpr-uat-gcp
+kind: Config
+preferences: {}
+users:
+- name: admin-stg-gcp
+  user:
+    token: eyJhbGciOiJSUzI1NiIsImtpZCI6IlJIcHVQOS12cDAtUzBlNDZuWnNsdm04TFJSUk5KN2JJYnVISHhnYm1JWVEifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJqZW5raW5zLWRlcGxveWVyLXRva2VuLXhjcGhwIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMtZGVwbG95ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJlMzUzM2M4OS1mMTRhLTQ3MGYtYTIxNi0wMTRmNjU5YzFkMjMiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06amVua2lucy1kZXBsb3llciJ9.NBxNm1yFHwV5kMQoonzo4gmw7xd1cTGvhU_SqPrrSWslaqkyp_1dvy1rt4c6lyNeydgytDAoYsVvHY775znl9Hr5RQaq0s4n7L7zaXv3jHAKGrC6tbmNFSayeOS-SoZ0Qox5OSfEJoplFXPq2nqgUT5Lfshy858F2yzzb4V-3yIC20N4Cu5VXOmQ0SJLAje_VHo1Uki0bZWC5mCjYkZmAscsPpzY0NhB1aWdx6tIxyY3zZh4QTslVwxIcOpeCjmm2nCIUq9lGgLK5rf0bCJD3ZHHlqLWLHSM_0p5Yu5h4SJ0h7d2E0QiadJNDPCrWU5HmuxaGlvABXDC-bWUsej2vQ

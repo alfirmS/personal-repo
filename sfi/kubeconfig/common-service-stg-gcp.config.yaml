@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://34.101.135.145
+    name: common-service-stg-gcp
+contexts:
+  - context:
+      cluster: common-service-stg-gcp
+      user: common-service-stg-gcp
+    name: common-service-stg-gcp
+kind: Config
+preferences: {}
+users:
+  - name: common-service-stg-gcp
+    user:
+      token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjROSlowWlpQSnNEcTBaTEtfQjNUYWRQYWtZeldOR3J5ZDNZa3gzMVl0R1kifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJqZW5raW5zLWRlcGxveWVyLXRva2VuLWx6NDJ6Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMtZGVwbG95ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI3YTc1NzJmYi02ZTc3LTQ3NjctOTIxNi04ZTdlYmVkODI3OWQiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06amVua2lucy1kZXBsb3llciJ9.mOCTI-GlPoFkZsBwf-x_WKOhob156IZKB9NviveaTr5Dnep5zrYtANUWZOiaANaO53x8HJj7Nwu3_56OgWwj1i-HNF4j1I54Ev58kpvBsdt49QYKBRvwFBbDL-aa-IAYXidSnk9VwQGR-GFgiPJdk6izxjKaewQKCyJ-pZ1XG-kA9IDVUq8DbHG4ZLhQ_-9Ov512_DK8CgH_fWfVhDmZqCRpFEpqGIESf0pz2hFolmW8R9CR2bZcQA4FSuUvCMzLWd0t8bN6R-w6B9DMo6JjS37oyHa7de1fj2U1yVlExc2ekO-twBrXighkUYi9E1scpbY_icY7mCW6eRE5qmXe0Q

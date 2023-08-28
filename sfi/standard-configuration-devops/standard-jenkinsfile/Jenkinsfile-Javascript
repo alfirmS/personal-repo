@@ -1,0 +1,177 @@
+// Set email for notification if result build successful, failed, or aborted
+def email = 'moch.miftahurrahman@adira.co.id,sonarandkatalon@adira.co.id,randi.aryanda@adira.co.id'
+
+// Set environment used in pipeline
+pipeline {
+  environment {
+    String BUILD_ENV = 'uat'
+    String IMAGE_NAME = 'adira-ent-registry-registry-vpc.ap-southeast-5.cr.aliyuncs.com/administrasi/uat-ad1-adm-front-web'
+    String IMAGE_TAG = "${Version_Major}.${Version_Minor}.${Version_Patch}-${BUILD_TIMESTAMP}-${env.BUILD_NUMBER}"
+    String SonarProjectKey = 'ad1-adm-front-web'
+    String SonarHost = 'http://10.161.17.144:9000/dashboard?id='
+    String deployEnv = 'uat-gcp'
+    String NAMESPACE = 'administrasi'
+    int  Version_Major = 1
+    int Version_Minor = 0
+    int Version_Patch = 0
+
+    cluster_context = credentials('cluster-context')
+    cluster_user = credentials('cluster-user')
+  }
+
+  // Set agent used for the pipeline (kubernetes, docker, or any)
+  agent {
+    kubernetes {
+      defaultContainer 'jnlp'
+      yaml '''
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          labels:
+            component: ci
+        spec:
+          containers:
+            - name: node
+              image: node:16.19.1-bullseye-slim
+              imagePullPolicy: IfNotPresent
+              command:
+                - cat
+              tty: true
+            - name: sonar-scanner
+              image: sonarsource/sonar-scanner-cli
+              imagePullPolicy: IfNotPresent
+              command:
+                - cat
+              tty: true
+            - name: kaniko
+              image: gcr.io/kaniko-project/executor:v1.9.1-debug
+              imagePullPolicy: IfNotPresent
+              command:
+                - /busybox/cat
+              tty: true
+              volumeMounts:
+                - name: docker-config
+                  mountPath: /kaniko/.docker
+            - name: helm
+              image: alpine/helm:3.11.1
+              imagePullPolicy: IfNotPresent
+              command:
+                - cat
+              tty: true
+          volumes:
+            - name: docker-config
+              projected:
+                sources:
+                  - secret:
+                      name: regcred
+                      items:
+                        - key: .dockerconfigjson
+                          path: config.json
+      '''
+    }
+  }
+
+  // Wrap all stage pipeline
+  stages {
+    // Set process name for every steps
+    stage('build') {
+      steps {
+        // Set used container for build vue application
+        container('node') {
+          sh '''
+            echo "******** currently executing Build stage ********"
+            npm install --force
+            npm run build:${deployEnv}
+          '''
+        }
+      }
+    }
+
+    stage('sonarqube') {
+      steps {
+        // Set environtment name for sonarqube, check in console jenkins -> manage jenkins -> configuration system -> sonarqube server -> name
+        withSonarQubeEnv('sonarqube-uat') {
+          container('sonar-scanner') {
+            sh '''
+              echo "******** currently executing sonarqube stage ********"
+              # Get command below in sonarqube server when creating a project
+              sonar-scanner \
+              -Dsonar.projectKey=ad1-adm-front-web \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=http://10.50.7.220:9000 \
+              -Dsonar.login=sqp_8f78a1a61dbea36e5f4d6ba645ee9685a6da2d12
+            '''
+          }
+        }
+      }
+    }
+
+    // Set quality gate, if want sonarqube result according to policy sonarqube (change value abort pipeline to true)
+    /*stage('Quality gate') {
+      steps {
+        echo '******** currently executing Quality gate stage ********'
+        waitForQualityGate abortPipeline: false
+      }
+    }*/
+
+    // Set kaniko for build image process
+    stage('kaniko stage and pushing image to ali private registry') {
+      steps {
+        container('kaniko') {
+          sh """
+            echo "******** currently executing kaniko stage ********"
+            /kaniko/executor \
+              --destination="registry.cloud.tenable.com/${env.NAMESPACE}:${env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')}-${env.BUILD_ENV}-${env.BUILD_TIMESTAMP}-${env.BUILD_NUMBER}" \
+              --destination="${IMAGE_NAME}:${IMAGE_TAG}" \
+              --dockerfile=`pwd`/Dockerfile-${deployEnv} \
+              --log-format=text \
+              --context=`pwd`
+          """
+        }
+      }
+    }
+
+    // Set helm for deploy to kubernetes process
+    stage('helm deploy to GCP') {
+      steps {
+        container('helm') {
+          // Set url, credentialsId, and clusterName
+          withKubeCredentials(kubectlCredentials: [[
+            serverUrl: 'https://34.101.110.89',
+            credentialsId: 'jenkins-deployer',
+            clusterName: 'bpr-uat'
+          ]]) {
+            sh '''
+              echo "******** currently executing deployment stage ********"
+              helm upgrade --install \
+                ad1-adm-front-web helm/ad1-adm-front-web-gcp \
+                --values=helm/ad1-adm-front-web-gcp/values-${deployEnv}.yaml \
+                --set=image.tag=${IMAGE_TAG} \
+                --namespace=${NAMESPACE} \
+                --wait --timeout=5m0s \
+                --debug
+            '''
+          }
+        }
+      }
+
+      post {
+        failure {
+          mail  to: "${email}",
+                subject: "FAILED: Build ${env.JOB_NAME}",
+                body: "Build failed ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}.\n\nView the log at:\n ${env.BUILD_URL}\n\nSee The SonarQube Report : ${SonarHost}${SonarProjectKey}"
+        }
+        success {
+          mail  to: "${email}",
+                subject: "SUCCESSFUL: Build ${env.JOB_NAME}",
+                body: "Build Successful ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nSee The SonarQube Report : ${SonarHost}${SonarProjectKey}"
+        }
+        aborted {
+          mail  to: "${email}",
+                subject: "ABORTED: Build ${env.JOB_NAME}",
+                body: "Build was aborted ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nSee The SonarQube Report : ${SonarHost}${SonarProjectKey}"
+        }
+      }
+    }
+  }
+}

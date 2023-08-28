@@ -1,0 +1,19 @@
+apiVersion: v1
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://34.101.204.251
+    name: cats-dev-ali
+contexts:
+  - context:
+      cluster: cats-dev-ali
+      user: cats-dev-ali
+    name: cats-dev-ali
+current-context: cats-dev-ali
+kind: Config
+preferences: {}
+users:
+  - name: cats-dev-ali
+    user:
+      token: eyJhbGciOiJSUzI1NiIsImtpZCI6InpsY29BTHdLRTNNZi1kOWdKX2oyY1U2Q3QwbUMyY1oxVGZOd1ZxWU1lUmsifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJrOHMtY2xlYW51cC10b2tlbi1sbGJ6ZiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJrOHMtY2xlYW51cCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6ImM2MDEwZTgwLWViNjgtNGRmNi1iZGMzLTRhZmRhYmIyNmYyZiIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlLXN5c3RlbTprOHMtY2xlYW51cCJ9.GolutDSxi0kXtIb3aXBWW2I6Jolk9moHAP9ARAmjNpZxOqmOXiufuXSeofRg7GckOaYuuvp2DnlcuHc3SFYH2aYKWjAbq1zRS7TYk6sbX797SbhJ9uV8wflAIXeYEF3Tg734m6uYIRspn1QrHQFawkIFy7fRK2yPjzigLWyL0fGFdVkWTAN-dGwlOkYoBJ1y-TzI8X1-TbYRMn3XYrMMMuI48T9cYcXf1NHFzXgl1e54zA9iVsV1siJJZr6oB0_0Y-79oowfYT4P790GWrVLOxSAEcdvUHHUiGySdpbt2N1fu2FlClEU8WofCHBnIbJWR28BbTErqpHeF2xLA_MxEA
+      

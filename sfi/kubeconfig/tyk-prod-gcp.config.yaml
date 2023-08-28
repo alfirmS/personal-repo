@@ -1,0 +1,20 @@
+apiVersion: v1
+clusters:
+- cluster:
+    insecure-skip-tls-verify: true
+    server: https://34.101.181.170
+  name: tyk-prod-gcp
+contexts:
+- context:
+    cluster: tyk-prod-gcp
+    user: tyk-prod-gcp
+  name: tyk-prod-gcp
+current-context: tyk-prod-gcp
+kind: Config
+preferences: {}
+users:
+- name: tyk-prod-gcp
+  user:
+    token: eyJhbGciOiJSUzI1NiIsImtpZCI6IlJNM01KRDJRd1FFT1haTF81VjB4bE9pbFVXdG00MnR4bnJsbkNmY0lSam8ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJnZW5lcmljLWdhcmJhZ2UtY29sbGVjdG9yLXRva2VuLWN6c3MyIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImdlbmVyaWMtZ2FyYmFnZS1jb2xsZWN0b3IiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJiMWMyYmJhZC00MzM1LTQyZTUtYTlhZC0xNGNkMTZjNzZkMDgiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06Z2VuZXJpYy1nYXJiYWdlLWNvbGxlY3RvciJ9.uKiBkVyjhckR0YZFwifGP_OBqHBt6eUnSjNr7g_EX8s-zYWrcLWOJ1Q7g-mX6HDw_k35UoOe6rqn3xBK-zdFuC836RGMqBLR-Gi5ro2cGgtPmOrE17kswX_ZkJE6YmKzsozx_uNG24dNFoLNXg3wA76Zbfpc4dRjPgL0rNAMoSlWvHCz_nY4OkJLr8VMkNLNJev-hL8LX1I-EiFEAoGyq8Y5JbOJQn9lD2lvqvVgYdl1eJEXrq0B6ktLvJ44wVnjUSh3tjbvRXDKp_O63ytYdy0Wu8yiw76WNEqhRrulPfYDoDZj3fggfAq8MVGNFfxpRAgE6sSp75zHk99acJLNCw
+
+

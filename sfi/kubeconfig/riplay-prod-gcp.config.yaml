@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://34.101.210.103
+    name: riplay-prod-gcp
+contexts:
+  - context:
+      cluster: riplay-prod-gcp
+      user: riplay-prod-gcp
+    name: riplay-prod-gcp
+current-context: riplay-prod-gcp
+kind: Config
+preferences: {}
+users:
+  - name: riplay-prod-gcp
+    user:
+      token: eyJhbGciOiJSUzI1NiIsImtpZCI6IktFTDZQQ1c0enQ4eGxwd0l3MGtKaXhHek9BYTN0SHVHS2daNkdpbVQxSmMifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJqZW5raW5zLWRlcGxveWVyLXRva2VuLTY5djZyIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMtZGVwbG95ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI0Yjc3MTZjMi02NjViLTQ1ZDQtOWZmZi0wOTJkYzkzZTc5MjIiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06amVua2lucy1kZXBsb3llciJ9.Rx-DCR3KqYxdLVPM1lb2gxyoJlrn97Ud9wpCZmlMWk7yAF3XoM0rW90zKsoFn1k2wPYltdrgeDgd-wd0EWZ30uUM2GvO8EZLMbaY9_ruC6b7WIpDYgV-_fTnWBe6PLv8k_KZh45-PUzTpusXBM1qv8iZTMJHSIe3vsh2gmk1n13WnHKUclxHRpNOY1AwFVFAYUE7Y3_VAcwqSDySttgp5_0xLj3SMrRhoQLJwcmhbTO9opYQFNE9AYSacwxWZ2KHAaD-YpfAOweNarQtvlNgRNu9iPH8gc8hKMIL2CGf_mqszmP9ZxTbglIHjuVvWinYI73IwSDLjebJ50Da7zpayA

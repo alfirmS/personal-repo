@@ -1,0 +1,18 @@
+apiVersion: v1
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://34.128.110.103
+    name: survey-prod-gcp
+contexts:
+  - context:
+      cluster: survey-prod-gcp
+      user: survey-prod-gcp
+    name: survey-prod-gcp
+current-context: survey-prod-gcp
+kind: Config
+preferences: {}
+users:
+  - name: survey-prod-gcp
+    user:
+      token: eyJhbGciOiJSUzI1NiIsImtpZCI6Ilp0VUJvOFFBUHNqY0dPcnNiMWFBS2dXTWZGejRKdFdLZ1YzS2ZhVExZQzQifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJqZW5raW5zLWRlcGxveWVyLXRva2VuLWdkY21sIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMtZGVwbG95ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJkMDBmZmU2Ny0zOGM4LTQ3NjgtOTM4NC0yN2FhZDlkYzQyZTMiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06amVua2lucy1kZXBsb3llciJ9.bdUJxbVHPIS4yUCs2pYpDiAQhvFAKgqqW67DsR3kRDzltQOPhX7BOO1eNAwfhxsjcCIqIdKU1do3MMkyDukokL-V6VOCTzNDWYIwfqV-LvgyvTny3qmEYuY_thS34d0kAyFWenUC7CPNdmB5z0zDvPIztMmIEOC3lDZVtX6nXa_e-X26TbD0cD25jCsezO_8Nqs99WWVBCMZ6Eqw2e1mwNi-GBjcJui84kaOHnBKhB-qo6TlvtvzjOTYivXymSJ8BjhrkSd4xwK1T0kMsCS1nC7Yw2KMfPVWwZ5UUa_Uclrlzsj-s25XqCZ4iz_f49j0soTImjLsJIXcEgVjxjSs9g

@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://34.101.98.124
+    name: survey-stg-gcp
+contexts:
+  - context:
+      cluster: survey-stg-gcp
+      user: survey-stg-gcp
+    name: survey-stg-gcp
+kind: Config
+preferences: {}
+users:
+  - name: survey-stg-gcp
+    user:
+      token: eyJhbGciOiJSUzI1NiIsImtpZCI6IndmdWNNQzlDTEprMjd3ZmJBd1JjaWZRSFZ5bVVpX3FIcTl3bDRnUVVBVW8ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJqZW5raW5zLWRlcGxveWVyLXRva2VuLTU5d2Q5Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMtZGVwbG95ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJkZGYwYzllYi0yMDRhLTRiMjUtOWM0Yy05Y2E1MzBhMDExNTgiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06amVua2lucy1kZXBsb3llciJ9.RCLU8R0InG8LRX2Gp6sLpFcgCbREgqcP63-ZQCh79vf50BJaXGOkdSpb9G4D8zPps3-cvv2HxhLqSnWvxuuyxsWRNvNxH8FgBsYCEVqUaNl71vSO7NufV9xpWKurx9s2nhgQ1XRuCvrmQP1LUEejt6GnN9kNHCZEunZBdlKuPe-oqsadg4FTg6LAw-SOyUNed1OCHaUU1NvKm7zogA4zpzGUODahN58XmhcwnVk6TM0GgHxSxGl5MAAtuin4Y6SbVSjIZgMzJ312_upCSLeItUsAsKYKTAGyw_MFg0FXLW5yXgtKENTyz_CksPvUYakxPVCItMk8hDcPNO6EUzLy3g

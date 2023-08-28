@@ -1,0 +1,199 @@
+#!/usr/bin/env groovy
+
+pipeline {
+  environment {
+    int VERSION_MAJOR = 1
+    int VERSION_MINOR = 0
+    int VERSION_PATCH = 0
+
+    String APP = "cats"
+    String SERVICE = "cats-web-vue"
+    String ENVIRONMENT = "prod"
+    String PUBLIC_URL = "cats-web.adira.co.id"
+
+    String BRANCH = "master"
+    String CRED_BITBUCKET = "jenkins.dev"
+
+    String KUBERNETES_URL = "https://"
+    String CRED_KUBERNETES = "config-cloud-cats"
+    String CLUSTER_NAME = "cats-prod-gcp"
+
+    String IMAGE_NAME = "asia-southeast2-docker.pkg.dev/it-infrastructure-service/production/${SERVICE}"
+    String IMAGE_TAG = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-${BUILD_TIMESTAMP}-${BUILD_NUMBER}"
+    String DOCKERFILE = "${APP}/${SERVICE}/Dockerfile"
+    String HELM_RELEASE = "${SERVICE}"
+    String HELM_CHART = "${APP}/${SERVICE}/helm"
+    String HELM_VALUES = "${HELM_CHART}/values.yaml"
+    String NAMESPACE = "prod"
+    String SOURCE_DIR = "${WORKSPACE}/source"
+
+    String SEND_EMAIL = "'toto.hardiyanto@adira.co.id,hito.nagamait@adira.co.id,v.adrianus.habirowo@adira.co.id'"
+  }
+    
+  agent {
+    kubernetes {
+      cloud 'config-cloud-administrasi'
+      defaultContainer 'jnlp'
+      yaml """
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          labels:
+            component: ci
+        spec:
+          containers:
+            - name: node
+              image: node:16.0.0
+              imagePullPolicy: IfNotPresent
+              tty: true
+              command:
+              - cat
+            - name: kaniko
+              image: gcr.io/kaniko-project/executor:v1.9.1-debug
+              imagePullPolicy: IfNotPresent
+              tty: true
+              command:
+                - /busybox/cat
+              volumeMounts:
+                - name: docker-config
+                  mountPath: /kaniko/.docker
+            - name: helm
+              image: alpine/helm:3.12.1
+              imagePullPolicy: IfNotPresent
+              tty: true
+              command:
+                - cat
+          volumes:
+            - name: docker-config
+              projected:
+                sources:
+                  - secret:
+                      name: regcred
+                      items:
+                        - key: .dockerconfigjson
+                          path: config.json
+      """
+    }
+  }
+
+  // Wrap all stages pipeline
+  stages {
+    // Checkout source code service
+    stage('Checkout Source Code') {
+      steps {
+        dir("${SOURCE_DIR}"){
+          git branch: "${BRANCH}",
+            credentialsId: "${CRED_BITBUCKET}",
+            url: "https://JenkinsDevelop@bitbucket.org/adira-it/${SERVICE}.git"
+        }
+      }
+    }
+
+    stage('Build') {
+      steps {
+        dir("${SOURCE_DIR}"){
+          container('node') {
+            sh """
+              npm cache clean --force
+              npm cache verify
+              rm -rf node_modules/
+              #npm install
+              npm install --force
+              npm remove @vue/cli-plugin-eslint
+              PUBLIC_URL="${PUBLIC_URL}" npm run build --fix
+            """
+          }
+        }
+      }
+    }
+  
+    stage('sonarqube') {
+      steps {
+        // Set environtment name for sonarqube, check in console jenkins -> manage jenkins -> configuration system -> sonarqube server -> name
+        withSonarQubeEnv('sonarqube-uat') {
+          container('maven') {
+            sh '''
+              echo "******** currently executing sonarqube stage ********"
+              # Get command below in sonarqube server when creating a project
+              mvn clean sonar:sonar \
+                -Dsonar.projectKey=ad1-adm-main \
+                -Dsonar.host.url=http://10.50.7.220:9000 \
+                -Dsonar.login=sqp_ba12a87f531a7576afcdf830ea6aa2b7081ba5a1
+            '''
+          }
+        }
+      }
+    }
+
+    // Set quality gate, if want sonarqube result according to policy sonarqube (change value abort pipeline to true)
+    stage("Quality gate") {
+      steps {
+        echo "******** currently executing Quality gate stage ********"
+        waitForQualityGate abortPipeline: false
+      }
+    }
+
+    // Set kaniko for build image process
+    stage('Build & Push Image') {
+      steps {
+        dir("${SOURCE_DIR}"){
+          container('kaniko') {
+            sh """
+              cp -r -f ${WORKSPACE}/* ${SOURCE_DIR}
+              executor \
+                --destination="${IMAGE_NAME}:${IMAGE_TAG}" \
+                --dockerfile=`pwd`/"${DOCKERFILE}" \
+                --log-format=text \
+                --context=`pwd`
+            """
+          }
+        }
+      }
+    }
+
+    // Set helm for deploy to kubernetes process
+    stage('Deploy'){
+      steps {
+        dir("${SOURCE_DIR}"){
+          container('helm') {
+            // Set url, credentialsId, and clusterName 
+            withKubeCredentials(kubectlCredentials: [[
+              serverUrl: "${KUBERNETES_URL}",
+              credentialsId: "${CRED_KUBERNETES}",
+              clusterName: "${CLUSTER_NAME}"
+            ]]) {
+              sh """
+                helm upgrade --install \
+                  "${HELM_RELEASE}" "${HELM_CHART}" \
+                  --values="${HELM_VALUES}" \
+                  --set=image.tag="${IMAGE_TAG}" \
+                  --namespace="${NAMESPACE}" \
+                  --timeout=5m0s --debug
+              """
+            }
+          }
+        }
+      }
+
+      post {
+        failure {
+          mail  to: $SEND_EMAIL,
+                subject: "FAILED: Build ${env.JOB_NAME} in UAT Branch",
+                body: "Build failed ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}.\n\nView the log at:\n ${env.BUILD_URL}"
+        }
+
+        success {
+          mail  to: $SEND_EMAIL,
+                subject: "SUCCESSFUL: Build ${env.JOB_NAME} in UAT Branch",
+                body: "Build Successful ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}"
+        }
+
+        aborted {
+          mail  to: $SEND_EMAIL,
+                subject: "ABORTED: Build ${env.JOB_NAME} in UAT Branch",
+                body: "Build was aborted ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}"
+        }
+      }
+    }
+  }
+}

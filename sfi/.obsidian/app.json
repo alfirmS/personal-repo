@@ -1,0 +1,17 @@
+{
+  "vimMode": true,
+  "defaultViewMode": "preview",
+  "showFrontmatter": true,
+  "showLineNumber": false,
+  "foldIndent": false,
+  "foldHeading": false,
+  "readableLineLength": true,
+  "spellcheck": true,
+  "smartIndentList": true,
+  "autoPairBrackets": true,
+  "useTab": true,
+  "tabSize": 4,
+  "autoPairMarkdown": true,
+  "showIndentGuide": true,
+  "strictLineBreaks": false
+}

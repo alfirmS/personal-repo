@@ -1,0 +1,104 @@
+pipeline {
+
+  environment {
+    DOCKERHUB_CREDENTIALS= credentials('docker-cred')
+    IMAGE_NAME = "index.docker.io/sfirman87/spring-petclinic"
+    IMAGE_TAG = "helm"
+    String SonarProjectKey = 'ad1-adm-main'
+    String SonarHost = 'http://10.161.17.144:9000/dashboard?id='
+    String namespace = 'belajar-kubernetes'
+  }
+
+  agent {
+    kubernetes {
+      
+      defaultContainer 'jnlp'
+      yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+labels:
+  component: ci
+spec:
+  # Use service account that can deploy to all namespaces
+  
+  containers: 
+  - name: maven
+    image: maven:3.8.5-openjdk-11-slim
+    imagePullPolicy: IfNotPresent
+    command:
+    - cat
+    tty: true 
+  - name: helm
+    image: trainingad1/helm3
+    imagePullPolicy: IfNotPresent
+    command:
+    - cat
+    tty: true
+    
+"""
+}
+  }
+  
+  
+  stages {
+    stage('build') {
+      steps {
+        container('maven') {
+          sh """
+            echo "******** currently executing Build stage ********"
+            #mvn clean test
+            mvn clean package
+          """
+        }
+      }
+    }
+    /*stage('sonarqube') {
+      steps {
+          withSonarQubeEnv('sonarqube-uat') {
+        container('maven') {
+          sh """
+            echo "******** currently executing sonarqube stage ********"
+           mvn sonar:sonar \
+				-Dsonar.projectKey=ad1-adm-main \
+				-Dsonar.host.url=http://10.50.7.220:9000 \
+				-Dsonar.login=67b2de4aa2bf680ef0af121620c83a75a331b4ca
+          """
+        }
+      }
+    }
+  }
+    stage("Quality gate") {
+            steps {
+                echo "******** currently executing Quality gate stage ********"
+                waitForQualityGate abortPipeline: false
+            }
+        }*/
+		
+    stage('Docker Build and Push') {
+      steps {
+          sh """
+				echo "********** currently executing build image and push image with docker"
+				docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
+				echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+				docker push ${IMAGE_NAME}:${IMAGE_TAG}
+             """
+      }
+    }
+	
+    stage('helm deploy to GCP') {
+      steps {
+        container('helm') {
+          sh """
+            echo "******** currently executing deployment stage ********"
+            helm upgrade -i spring-petclinic  helm/spring-petclinic -f helm/spring-petclinic/values.yaml -n ${namespace} --set=image.tag=${IMAGE_TAG}
+            kubectl rollout status deployment/spring-petclinic -n ${namespace}
+			kubectl get pods -n ${namespace}
+			kubectl get svc -n ${namespace}
+            helm ls -n ${namespace}
+             """
+        }
+      }
+    }
+  }
+}

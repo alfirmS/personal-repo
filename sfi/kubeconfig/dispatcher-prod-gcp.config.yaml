@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://34.101.76.120
+    name: dispatcher-prod-gcp
+contexts:
+  - context:
+      cluster: dispatcher-prod-gcp
+      user: dispatcher-prod-gcp
+    name: dispatcher-prod-gcp
+current-context: dispatcher-prod-gcp
+kind: Config
+preferences: {}
+users:
+  - name: dispatcher-prod-gcp
+    user:
+      token: eyJhbGciOiJSUzI1NiIsImtpZCI6IktKUWhESzdWaUVBM2xDNXlnRTZPN2R2RUh3MjFhOHN6TU5ac0I1M2dwWHMifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJqZW5raW5zLWRlcGxveWVyLXRva2VuLW05czVsIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMtZGVwbG95ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJhMjkzYjlmZS1jOTVmLTQ4N2QtYjY1MS0zYWQ1OGViMjc4NDIiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06amVua2lucy1kZXBsb3llciJ9.X3MNb_Pp1cxmOdIOXVo9klb24ehurnam5mG9kk_pElvbN0RilwyAQ5KxS3oYTQdbtiQx4fuEcZ_uzhI-bC_dsGOm52usB5VjftJ_vuRFVnGzjzpXFzCG4b1cO1AfTuNdB22wq-tqxNZwOJn1WLwl8EBSYBvIzVt4u9RIMFOn1uc7cnXLKuBMTgh0JoALDYfrWBOOvuzzXJDBHXsK4l8BuV9UTmtqOfBc9XNsUL2vYto9pakK_mOgaK40Wxp-McrN7zDSEN0MNfRwoXg6MnYp5444daZMzJkk9gFMUmtzLkq6Eyuahm7Bn930_PhDT1NDrSYGv1B4-yaeHuUCeSWzLA

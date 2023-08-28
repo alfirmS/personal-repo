@@ -1,0 +1,166 @@
+{
+  "main": {
+    "id": "cbc28dde4751ea05",
+    "type": "split",
+    "children": [
+      {
+        "id": "ea1cb4eb957fa7d5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "437825d6f9387aaf",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "e14086b7e7e97d2d",
+    "type": "split",
+    "children": [
+      {
+        "id": "f66f81b0e55a5700",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e779ba922dbccb61",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "77fa8b632f8e84fb",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "86fe7412d13c9bd9",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 384.5
+  },
+  "right": {
+    "id": "cc9578b4d789c9bd",
+    "type": "split",
+    "children": [
+      {
+        "id": "57149d8653bf6a3b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "839ca4790ab705b9",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "19f55b271ed9992c",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "092b59a005c22e15",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "e779ba922dbccb61",
+  "lastOpenFiles": [
+    "kubeconfig/Untitled.canvas",
+    "repo-belajar-kubernetes/test/Untitled.canvas",
+    "repo-belajar-kubernetes/Untitled/Untitled.md",
+    "repo-belajar-kubernetes/Untitled",
+    "working-instruction/Working-Instruction-Deployment-Microservice.md",
+    "working-instruction/How-to-Configuration-Partner-Mobile.md",
+    "replace.sh",
+    "README.md",
+    "kubefirst/tests/vault_test.go",
+    "kubefirst/tests/ngrok_test.go",
+    "kubefirst/tests/metaphor-frontend_test.go",
+    "kubefirst/tests/README.md",
+    "kubefirst/tests",
+    "kubefirst/test/artifacts/init/sample.yaml",
+    "kubefirst/test/artifacts/init/aws_profile.yaml",
+    "kubefirst/test/artifacts/init",
+    "kubefirst/test/artifacts",
+    "kubefirst/images/provisioning.png",
+    "kubefirst/images/kubefirst.svg",
+    "kubefirst/images/kubefirst-light.svg",
+    "kubefirst/images/kubefirst-arch.png",
+    "kubefirst/build/README.md",
+    "kubefirst/SUPPORT.MD",
+    "kubefirst/README.md",
+    "kubefirst/CONTRIBUTING.md",
+    "kubefirst/CODE_OF_CONDUCT.md",
+    "standard-configuration-devops/standard-helm-template/README-for-use-replace.sh.md",
+    "working-instruction/Seller Apps Migration to Helm.md",
+    "standard-configuration-devops/Catatan Improvement.md"
+  ]
+}

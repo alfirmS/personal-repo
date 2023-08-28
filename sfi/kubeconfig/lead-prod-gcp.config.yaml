@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://34.101.248.124
+    name: lead-engine-prod-gcp
+contexts:
+  - context:
+      cluster: lead-engine-prod-gcp
+      user: lead-engine-prod-gcp
+    name: lead-engine-prod-gcp
+current-context: lead-engine-prod-gcp
+kind: Config
+preferences: {}
+users:
+  - name: lead-engine-prod-gcp
+    user:
+      token: eyJhbGciOiJSUzI1NiIsImtpZCI6ImZ3MXExaC1UTUtkT2NBU3pudWpLN1p6X3plRjNIRnhWbC0yLWxnN21QX28ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJqZW5raW5zLWRlcGxveWVyLXRva2VuLXRiMmN4Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMtZGVwbG95ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJkYmJiYjFkNi0yM2JlLTQ3YmMtODJhZC0yNzQ0ODEwNzExMzMiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06amVua2lucy1kZXBsb3llciJ9.2fvleF3RN8ZqW_MorZcyDldnYrRxmKbmjmLBbWtyUvrzl0F9hmCgxCl9zOfvMH3w_IE9jZ2_wZob5mFRrjabwPyRv7oj5RtLtHMxJPO3u0623fHzj4wWU5BiEPPI2xywsKjJbjgXi23hISHoFvjd4jbHM_h35gRD0LcpLbSi-61piIBan2AYVSEmqY1jHvVP9XIXd0rNpipbuAjM2mCRQihuxXCfjbV15KDGh1qUTOwVYKRs3-_eLKxqpnTuwLRiFCqiuPM3YDVTT4h195eNIDcjGncXQOXWR8BTPvHZiM_EXqw80OL6rfEqhG5t_4tmyjFFigoUkfo6q_2ZDa9sZA

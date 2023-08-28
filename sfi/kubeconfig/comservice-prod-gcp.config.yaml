@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://34.101.147.46
+    name: comservice-prod-gcp
+contexts:
+  - context:
+      cluster: comservice-prod-gcp
+      user: comservice-prod-gcp
+    name: comservice-prod-gcp
+current-context: comservice-prod-gcp
+kind: Config
+preferences: {}
+users:
+  - name: comservice-prod-gcp
+    user:
+      token: eyJhbGciOiJSUzI1NiIsImtpZCI6IlU5VGgyUkoxNTZTcHF4VUFyYXFBX19JN2lnRUtKZXNqeU5Ca2drZjFSdUkifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJqZW5raW5zLWRlcGxveWVyLXRva2VuLXM1bXdoIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMtZGVwbG95ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI2MjQzYjNkMS01NmQ2LTRlYTMtYTZlZC00NGM5MzZhYzA1Y2IiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06amVua2lucy1kZXBsb3llciJ9.BAZUovLkyiMNKbfEmNFVHePAXRM4BAVMMZM5YgUQ2A4D0Z3LFGy1WW0hqcVNDWryrOPSOWEqjh0aGAgX0OCTKuczn9UV_r5qHA8m7TuTnd0sUOGcOVq0vQRpuwDXLwhxiX5cf6s51uu2j5yUTrjoQWxnSDbhSN5e3SY0nQJDzrSrJjqm2SKQzTQEjP72CAyuXGJ8rH2XQBicfiSXx0YSHvNR04BsEabExA5vIQCjA9Obyfu3Z_FrvNWxJ8jVqDY4MMisOeq-7xN22GxX0WjxlHSqBuc9sFegjXFSm9NgeXjO5Cm-UwO5Li_D-2kD9yDebNEWCvvI1JezqpwLq_3Phg
+

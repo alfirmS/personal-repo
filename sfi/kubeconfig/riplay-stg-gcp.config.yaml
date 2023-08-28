@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://34.101.152.7
+    name: riplay-stg-gcp
+contexts:
+  - context:
+      cluster: riplay-stg-gcp
+      user: riplay-stg-gcp
+    name: riplay-stg-gcp
+kind: Config
+preferences: {}
+users:
+  - name: riplay-stg-gcp
+    user:
+      token: eyJhbGciOiJSUzI1NiIsImtpZCI6InRjc3hCejMxTUVid3FkdWdFZllUTEhwTDMtemFVZXBuTW1nQWVGamNMVVkifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJqZW5raW5zLWRlcGxveWVyLXRva2VuLWcyc3diIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMtZGVwbG95ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI5ZDBkNzcwNC00NzY0LTQ5ODktYTdiMC05ZWRjMjMzZWMwMTAiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06amVua2lucy1kZXBsb3llciJ9.NirIXd-WFoQcFHLJlKjOQJL2Pr-giKuemf2vUFPfCyPzppCfaalSW9VfKyq-1sjsbmrHuKuA-5Me8adUWSTFmoXYe-8alirB5TexQ4ZSFhggYO2WSU7aqyb-YHFQqQwVBDhnXtcOn0lABLSmYcK1FgX3w0L_v8gw7iGprEMzHXRa--z7e569g7zp_7169gD74y7ZwFvqAuvIL-e4dQ4FP6-8ut_JJ_z24uakCeuAPlP33rG4UmpjyoazLq9cs-FlmRsLHv-QqGoBNmH5yzbN16XMFIirObED1pVvzRNOJLMceR1AM0kguA7Nxo4iXS11lNYORZKutGmy2XfVj56ptA

@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://34.101.166.16
+    name: lead-engine-stg-gcp
+contexts:
+  - context:
+      cluster: lead-engine-stg-gcp
+      user: lead-engine-stg-gcp
+    name: lead-engine-stg-gcp
+kind: Config
+preferences: {}
+users:
+  - name: lead-engine-stg-gcp
+    user:
+      token: eyJhbGciOiJSUzI1NiIsImtpZCI6IkVESlJVWFdHRXNLSGdneEp0X2hvdHFDWDRjdjh0MDRQS3lqR2gwdmdnbTgifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJqZW5raW5zLWRlcGxveWVyLXRva2VuLTh2ajduIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMtZGVwbG95ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI2NWEyMmVkNS0yMjVkLTRkNWItOTE0Mi1hOTJkYTRiNzBjZjciLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06amVua2lucy1kZXBsb3llciJ9.C8MXPTj_1Li3zZriNsMzq7hg1qRyZvyu9z_6gnT0qiq7n66Qy-5oUwrIAsjbgpwHAm-U612eLcuMSpH0wZAn7_hjAaAGvWytq1O6xXO-LLvAtRWT66Qd8KpzD7IceVYYxcB-KuTMiRMx3a4NNp3wEhaaqfufaRFYUaPhkQrl9KANDmogyZ4iTLt92BC3ApT5YN6ZUGA0mINJyeu_xrGBIagCfEiAffeZ57xjpTH7NOTyoCdUUIibg36qp04IYIofN7n7lOobGt_uAH4Z9EI-MMwv6SiBLzIarYxOZ8uQ_SC8HTzvggOl6yvVdjEeY_Mu079NxrJ3m5JzNs5_hg190A

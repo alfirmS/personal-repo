@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://34.101.123.25
+    name: dispatcher-stg-gcp
+contexts:
+  - context:
+      cluster: dispatcher-stg-gcp
+      user: dispatcher-stg-gcp
+    name: dispatcher-stg-gcp
+kind: Config
+preferences: {}
+users:
+  - name: dispatcher-stg-gcp
+    user:
+      token: eyJhbGciOiJSUzI1NiIsImtpZCI6InJnVE4xZDhnU0lacWlCTVd0YU5PV3kxZkxKS1VIb1FKS2p1aTc2ZVZfbk0ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJqZW5raW5zLWRlcGxveWVyLXRva2VuLXp3ODR0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImplbmtpbnMtZGVwbG95ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJlZmU5MTM3Yy01OTI3LTRjOGEtYmYxZC05MmVjNjgzMzQ3OWQiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06amVua2lucy1kZXBsb3llciJ9.A6QjgJr7S9d_wWTnb-2PhD8DrND4tFogk_ceZ9t39sQSwODrP_7iR7b-g7YcSCfqYpQWi9L79rFXnCJJxcmcG3KystxHQEyi__SN5yOF0FJxgr68AhsG_V2ckRw7PXE1KKIQPBDgXnwRoxRd16Pr1JmTK-M6PWIADRa7XXMIuBv4afZ8NveMhLAKCmgRmtNurx3--T05YBiCmrxFM_9NO3kxUkyQr2ksmaZ-FVTvxrJmfEA8lcmQZPWwBVQf6poqtIatvS-n4UvKs51BY9QZrxku7IpylQ3R7Dk8GZLou7qVBXlmDKajovK2sIJUU61llTWB2XE2nKtAa_eXEA38XQ

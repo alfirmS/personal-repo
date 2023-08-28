@@ -1,0 +1,8 @@
+FROM alpine:latest
+
+RUN apk update \
+    && apk add openjdk8 \ 
+           tzdata \
+           tar
+
+ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk/jre

@@ -1,0 +1,284 @@
+2023-07-21 09:07:03 Loading main app package /var/lib/snapd/snap/obsidian/12/resources/obsidian.asar
+2023-07-21 09:07:03 Checking for update using Github
+2023-07-21 09:07:03 Success.
+2023-07-21 09:07:03 Latest version is 1.3.5
+2023-07-21 09:07:03 App is up to date.
+libGL error: MESA-LOADER: failed to open swrast: /usr/lib/x86_64-linux-gnu/dri/swrast_dri.so: cannot open shared object file: No such file or directory (search paths /usr/lib/x86_64-linux-gnu/dri, suffix _dri)
+libGL error: failed to load driver: swrast
+[33371:0721/160703.939423:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[33371:0721/160703.939618:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[33371:0721/160703.939660:ERROR:gl_display.cc(793)] eglInitialize OpenGL failed with error EGL_NOT_INITIALIZED, trying next display type
+[33371:0721/160703.940536:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[33371:0721/160703.940623:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[33371:0721/160703.940658:ERROR:gl_display.cc(793)] eglInitialize OpenGLES failed with error EGL_NOT_INITIALIZED
+[33371:0721/160703.940692:ERROR:gl_display.cc(819)] Initialization of all EGL display types failed.
+[33371:0721/160703.940731:ERROR:gl_ozone_egl.cc(26)] GLDisplayEGL::Initialize failed.
+[33371:0721/160703.992478:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[33371:0721/160703.992763:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[33371:0721/160703.992882:ERROR:gl_display.cc(793)] eglInitialize OpenGL failed with error EGL_NOT_INITIALIZED, trying next display type
+[33371:0721/160703.994562:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[33371:0721/160703.994774:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[33371:0721/160703.994921:ERROR:gl_display.cc(793)] eglInitialize OpenGLES failed with error EGL_NOT_INITIALIZED
+[33371:0721/160703.995142:ERROR:gl_display.cc(819)] Initialization of all EGL display types failed.
+[33371:0721/160703.995263:ERROR:gl_ozone_egl.cc(26)] GLDisplayEGL::Initialize failed.
+[33371:0721/160703.998400:ERROR:viz_main_impl.cc(186)] Exiting GPU process due to errors during initialization
+libva error: vaGetDriverNameByIndex() failed with unknown libva error, driver_name = (null)
+[33409:0721/160704.283986:ERROR:gpu_memory_buffer_support_x11.cc(49)] dri3 extension not supported.
+[33380:0721/160704.298144:ERROR:command_buffer_proxy_impl.cc(128)] ContextResult::kTransientFailure: Failed to send GpuControl.CreateCommandBuffer.
+2023-07-25 03:46:14 Loading main app package /var/lib/snapd/snap/obsidian/12/resources/obsidian.asar
+libGL error: MESA-LOADER: failed to open swrast: /usr/lib/x86_64-linux-gnu/dri/swrast_dri.so: cannot open shared object file: No such file or directory (search paths /usr/lib/x86_64-linux-gnu/dri, suffix _dri)
+libGL error: failed to load driver: swrast
+2023-07-25 03:46:15 Checking for update using Github
+libGL error: MESA-LOADER: failed to open swrast: /usr/lib/x86_64-linux-gnu/dri/swrast_dri.so: cannot open shared object file: No such file or directory (search paths /usr/lib/x86_64-linux-gnu/dri, suffix _dri)
+libGL error: failed to load driver: swrast
+[9745:0725/104615.324948:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[9745:0725/104615.325094:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[9745:0725/104615.325164:ERROR:gl_display.cc(793)] eglInitialize OpenGL failed with error EGL_NOT_INITIALIZED, trying next display type
+[9745:0725/104615.325998:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[9745:0725/104615.326087:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[9745:0725/104615.326141:ERROR:gl_display.cc(793)] eglInitialize OpenGLES failed with error EGL_NOT_INITIALIZED
+[9745:0725/104615.326214:ERROR:gl_display.cc(819)] Initialization of all EGL display types failed.
+[9745:0725/104615.326282:ERROR:gl_ozone_egl.cc(26)] GLDisplayEGL::Initialize failed.
+[9745:0725/104615.350568:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[9745:0725/104615.350704:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[9745:0725/104615.350783:ERROR:gl_display.cc(793)] eglInitialize OpenGL failed with error EGL_NOT_INITIALIZED, trying next display type
+[9745:0725/104615.351715:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[9745:0725/104615.351832:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[9745:0725/104615.351898:ERROR:gl_display.cc(793)] eglInitialize OpenGLES failed with error EGL_NOT_INITIALIZED
+[9745:0725/104615.352022:ERROR:gl_display.cc(819)] Initialization of all EGL display types failed.
+[9745:0725/104615.352100:ERROR:gl_ozone_egl.cc(26)] GLDisplayEGL::Initialize failed.
+[9745:0725/104615.354809:ERROR:viz_main_impl.cc(186)] Exiting GPU process due to errors during initialization
+libva error: vaGetDriverNameByIndex() failed with unknown libva error, driver_name = (null)
+[9847:0725/104615.443167:ERROR:gpu_memory_buffer_support_x11.cc(49)] dri3 extension not supported.
+[9818:0725/104615.458970:ERROR:command_buffer_proxy_impl.cc(128)] ContextResult::kTransientFailure: Failed to send GpuControl.CreateCommandBuffer.
+2023-07-25 03:46:15 Success.
+2023-07-25 03:46:15 Latest version is 1.3.5
+2023-07-25 03:46:15 App is up to date.
+2023-07-25 03:56:01 Loading main app package /var/lib/snapd/snap/obsidian/12/resources/obsidian.asar
+2023-07-25 03:56:01 Checking for update using Github
+libGL error: MESA-LOADER: failed to open swrast: /usr/lib/x86_64-linux-gnu/dri/swrast_dri.so: cannot open shared object file: No such file or directory (search paths /usr/lib/x86_64-linux-gnu/dri, suffix _dri)
+libGL error: failed to load driver: swrast
+[10350:0725/105601.936775:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[10350:0725/105601.936954:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[10350:0725/105601.937038:ERROR:gl_display.cc(793)] eglInitialize OpenGL failed with error EGL_NOT_INITIALIZED, trying next display type
+[10350:0725/105601.938300:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[10350:0725/105601.938526:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[10350:0725/105601.938637:ERROR:gl_display.cc(793)] eglInitialize OpenGLES failed with error EGL_NOT_INITIALIZED
+[10350:0725/105601.938752:ERROR:gl_display.cc(819)] Initialization of all EGL display types failed.
+[10350:0725/105601.938857:ERROR:gl_ozone_egl.cc(26)] GLDisplayEGL::Initialize failed.
+[10350:0725/105601.971693:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[10350:0725/105601.971886:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[10350:0725/105601.971998:ERROR:gl_display.cc(793)] eglInitialize OpenGL failed with error EGL_NOT_INITIALIZED, trying next display type
+[10350:0725/105601.973280:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[10350:0725/105601.973506:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[10350:0725/105601.973754:ERROR:gl_display.cc(793)] eglInitialize OpenGLES failed with error EGL_NOT_INITIALIZED
+[10350:0725/105601.973901:ERROR:gl_display.cc(819)] Initialization of all EGL display types failed.
+[10350:0725/105601.974075:ERROR:gl_ozone_egl.cc(26)] GLDisplayEGL::Initialize failed.
+[10350:0725/105601.976824:ERROR:viz_main_impl.cc(186)] Exiting GPU process due to errors during initialization
+libva error: vaGetDriverNameByIndex() failed with unknown libva error, driver_name = (null)
+[10386:0725/105602.092976:ERROR:gpu_memory_buffer_support_x11.cc(49)] dri3 extension not supported.
+[10359:0725/105602.127807:ERROR:command_buffer_proxy_impl.cc(128)] ContextResult::kTransientFailure: Failed to send GpuControl.CreateCommandBuffer.
+2023-07-25 03:56:05 Success.
+2023-07-25 03:56:05 Latest version is 1.3.5
+2023-07-25 03:56:05 App is up to date.
+2023-07-25 04:56:01 Checking for update using Github
+2023-07-25 04:56:02 Success.
+2023-07-25 04:56:02 Latest version is 1.3.5
+2023-07-25 04:56:02 App is up to date.
+2023-07-25 05:56:01 Checking for update using Github
+2023-07-25 05:56:02 Success.
+2023-07-25 05:56:02 Latest version is 1.3.5
+2023-07-25 05:56:02 App is up to date.
+2023-07-25 06:56:02 Checking for update using Github
+2023-07-25 06:56:02 Success.
+2023-07-25 06:56:02 Latest version is 1.3.5
+2023-07-25 06:56:02 App is up to date.
+2023-07-25 07:56:02 Checking for update using Github
+2023-07-25 07:56:02 Success.
+2023-07-25 07:56:02 Latest version is 1.3.5
+2023-07-25 07:56:02 App is up to date.
+2023-07-25 08:56:02 Checking for update using Github
+2023-07-25 08:56:02 Success.
+2023-07-25 08:56:02 Latest version is 1.3.5
+2023-07-25 08:56:02 App is up to date.
+2023-07-25 09:56:02 Checking for update using Github
+2023-07-25 09:56:02 Success.
+2023-07-25 09:56:02 Latest version is 1.3.5
+2023-07-25 09:56:02 App is up to date.
+2023-07-26 02:47:13 Loading main app package /var/lib/snapd/snap/obsidian/12/resources/obsidian.asar
+libGL error: MESA-LOADER: failed to open swrast: /usr/lib/x86_64-linux-gnu/dri/swrast_dri.so: cannot open shared object file: No such file or directory (search paths /usr/lib/x86_64-linux-gnu/dri, suffix _dri)
+libGL error: failed to load driver: swrast
+2023-07-26 02:47:13 Checking for update using Github
+libGL error: MESA-LOADER: failed to open swrast: /usr/lib/x86_64-linux-gnu/dri/swrast_dri.so: cannot open shared object file: No such file or directory (search paths /usr/lib/x86_64-linux-gnu/dri, suffix _dri)
+libGL error: failed to load driver: swrast
+[9020:0726/094713.520603:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[9020:0726/094713.520774:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[9020:0726/094713.520883:ERROR:gl_display.cc(793)] eglInitialize OpenGL failed with error EGL_NOT_INITIALIZED, trying next display type
+[9020:0726/094713.521748:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[9020:0726/094713.521856:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[9020:0726/094713.521947:ERROR:gl_display.cc(793)] eglInitialize OpenGLES failed with error EGL_NOT_INITIALIZED
+[9020:0726/094713.522021:ERROR:gl_display.cc(819)] Initialization of all EGL display types failed.
+[9020:0726/094713.522081:ERROR:gl_ozone_egl.cc(26)] GLDisplayEGL::Initialize failed.
+[9020:0726/094713.557333:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[9020:0726/094713.557490:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[9020:0726/094713.557587:ERROR:gl_display.cc(793)] eglInitialize OpenGL failed with error EGL_NOT_INITIALIZED, trying next display type
+[9020:0726/094713.558366:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[9020:0726/094713.558460:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[9020:0726/094713.558537:ERROR:gl_display.cc(793)] eglInitialize OpenGLES failed with error EGL_NOT_INITIALIZED
+[9020:0726/094713.558602:ERROR:gl_display.cc(819)] Initialization of all EGL display types failed.
+[9020:0726/094713.558665:ERROR:gl_ozone_egl.cc(26)] GLDisplayEGL::Initialize failed.
+[9020:0726/094713.559924:ERROR:viz_main_impl.cc(186)] Exiting GPU process due to errors during initialization
+2023-07-26 02:47:13 Success.
+2023-07-26 02:47:13 Latest version is 1.3.5
+2023-07-26 02:47:13 App is up to date.
+libva error: vaGetDriverNameByIndex() failed with unknown libva error, driver_name = (null)
+[9124:0726/094713.651744:ERROR:gpu_memory_buffer_support_x11.cc(49)] dri3 extension not supported.
+[9082:0726/094713.657502:ERROR:command_buffer_proxy_impl.cc(128)] ContextResult::kTransientFailure: Failed to send GpuControl.CreateCommandBuffer.
+2023-07-26 03:06:24 Loading main app package /var/lib/snapd/snap/obsidian/12/resources/obsidian.asar
+2023-07-26 03:06:24 Checking for update using Github
+libGL error: MESA-LOADER: failed to open swrast: /usr/lib/x86_64-linux-gnu/dri/swrast_dri.so: cannot open shared object file: No such file or directory (search paths /usr/lib/x86_64-linux-gnu/dri, suffix _dri)
+libGL error: failed to load driver: swrast
+[10162:0726/100624.950266:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[10162:0726/100624.950557:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[10162:0726/100624.950726:ERROR:gl_display.cc(793)] eglInitialize OpenGL failed with error EGL_NOT_INITIALIZED, trying next display type
+[10162:0726/100624.952296:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[10162:0726/100624.952429:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[10162:0726/100624.952525:ERROR:gl_display.cc(793)] eglInitialize OpenGLES failed with error EGL_NOT_INITIALIZED
+[10162:0726/100624.952653:ERROR:gl_display.cc(819)] Initialization of all EGL display types failed.
+[10162:0726/100624.952816:ERROR:gl_ozone_egl.cc(26)] GLDisplayEGL::Initialize failed.
+[10162:0726/100624.983567:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[10162:0726/100624.984025:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[10162:0726/100624.984140:ERROR:gl_display.cc(793)] eglInitialize OpenGL failed with error EGL_NOT_INITIALIZED, trying next display type
+[10162:0726/100624.986204:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[10162:0726/100624.986421:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[10162:0726/100624.986553:ERROR:gl_display.cc(793)] eglInitialize OpenGLES failed with error EGL_NOT_INITIALIZED
+[10162:0726/100624.986744:ERROR:gl_display.cc(819)] Initialization of all EGL display types failed.
+[10162:0726/100624.986926:ERROR:gl_ozone_egl.cc(26)] GLDisplayEGL::Initialize failed.
+[10162:0726/100624.989426:ERROR:viz_main_impl.cc(186)] Exiting GPU process due to errors during initialization
+libva error: vaGetDriverNameByIndex() failed with unknown libva error, driver_name = (null)
+[10199:0726/100625.054077:ERROR:gpu_memory_buffer_support_x11.cc(49)] dri3 extension not supported.
+[10172:0726/100625.057106:ERROR:command_buffer_proxy_impl.cc(128)] ContextResult::kTransientFailure: Failed to send GpuControl.CreateCommandBuffer.
+2023-07-26 03:06:25 Success.
+2023-07-26 03:06:25 Latest version is 1.3.5
+2023-07-26 03:06:25 App is up to date.
+2023-07-26 03:36:33 Loading main app package /var/lib/snapd/snap/obsidian/12/resources/obsidian.asar
+2023-07-26 03:36:33 Checking for update using Github
+2023-07-26 03:36:33 Success.
+2023-07-26 03:36:33 Latest version is 1.3.5
+2023-07-26 03:36:33 App is up to date.
+libGL error: MESA-LOADER: failed to open swrast: /usr/lib/x86_64-linux-gnu/dri/swrast_dri.so: cannot open shared object file: No such file or directory (search paths /usr/lib/x86_64-linux-gnu/dri, suffix _dri)
+libGL error: failed to load driver: swrast
+[11564:0726/103633.631692:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[11564:0726/103633.631835:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[11564:0726/103633.631929:ERROR:gl_display.cc(793)] eglInitialize OpenGL failed with error EGL_NOT_INITIALIZED, trying next display type
+[11564:0726/103633.632728:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[11564:0726/103633.632827:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[11564:0726/103633.632888:ERROR:gl_display.cc(793)] eglInitialize OpenGLES failed with error EGL_NOT_INITIALIZED
+[11564:0726/103633.632948:ERROR:gl_display.cc(819)] Initialization of all EGL display types failed.
+[11564:0726/103633.633018:ERROR:gl_ozone_egl.cc(26)] GLDisplayEGL::Initialize failed.
+[11564:0726/103633.657080:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[11564:0726/103633.657304:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[11564:0726/103633.657389:ERROR:gl_display.cc(793)] eglInitialize OpenGL failed with error EGL_NOT_INITIALIZED, trying next display type
+[11564:0726/103633.658487:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[11564:0726/103633.658638:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[11564:0726/103633.658713:ERROR:gl_display.cc(793)] eglInitialize OpenGLES failed with error EGL_NOT_INITIALIZED
+[11564:0726/103633.658867:ERROR:gl_display.cc(819)] Initialization of all EGL display types failed.
+[11564:0726/103633.658943:ERROR:gl_ozone_egl.cc(26)] GLDisplayEGL::Initialize failed.
+[11564:0726/103633.660387:ERROR:viz_main_impl.cc(186)] Exiting GPU process due to errors during initialization
+libva error: vaGetDriverNameByIndex() failed with unknown libva error, driver_name = (null)
+[11601:0726/103633.737999:ERROR:gpu_memory_buffer_support_x11.cc(49)] dri3 extension not supported.
+[11573:0726/103633.746540:ERROR:command_buffer_proxy_impl.cc(128)] ContextResult::kTransientFailure: Failed to send GpuControl.CreateCommandBuffer.
+2023-07-27 03:43:26 Loading main app package /var/lib/snapd/snap/obsidian/12/resources/obsidian.asar
+libGL error: MESA-LOADER: failed to open swrast: /usr/lib/x86_64-linux-gnu/dri/swrast_dri.so: cannot open shared object file: No such file or directory (search paths /usr/lib/x86_64-linux-gnu/dri, suffix _dri)
+libGL error: failed to load driver: swrast
+2023-07-27 03:43:26 Checking for update using Github
+libGL error: MESA-LOADER: failed to open swrast: /usr/lib/x86_64-linux-gnu/dri/swrast_dri.so: cannot open shared object file: No such file or directory (search paths /usr/lib/x86_64-linux-gnu/dri, suffix _dri)
+libGL error: failed to load driver: swrast
+[12143:0727/104326.766316:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[12143:0727/104326.766472:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[12143:0727/104326.766528:ERROR:gl_display.cc(793)] eglInitialize OpenGL failed with error EGL_NOT_INITIALIZED, trying next display type
+[12143:0727/104326.767254:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[12143:0727/104326.767351:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[12143:0727/104326.767413:ERROR:gl_display.cc(793)] eglInitialize OpenGLES failed with error EGL_NOT_INITIALIZED
+[12143:0727/104326.767479:ERROR:gl_display.cc(819)] Initialization of all EGL display types failed.
+[12143:0727/104326.767551:ERROR:gl_ozone_egl.cc(26)] GLDisplayEGL::Initialize failed.
+[12143:0727/104326.789999:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[12143:0727/104326.790125:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[12143:0727/104326.790205:ERROR:gl_display.cc(793)] eglInitialize OpenGL failed with error EGL_NOT_INITIALIZED, trying next display type
+[12143:0727/104326.791074:ERROR:angle_platform_impl.cc(43)] Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+ERR: Display.cpp:1019 (initialize): ANGLE Display::initialize error 12289: Could not create a backing OpenGL context.
+[12143:0727/104326.791234:ERROR:gl_display.cc(504)] EGL Driver message (Critical) eglInitialize: Could not create a backing OpenGL context.
+[12143:0727/104326.791321:ERROR:gl_display.cc(793)] eglInitialize OpenGLES failed with error EGL_NOT_INITIALIZED
+[12143:0727/104326.791394:ERROR:gl_display.cc(819)] Initialization of all EGL display types failed.
+[12143:0727/104326.791461:ERROR:gl_ozone_egl.cc(26)] GLDisplayEGL::Initialize failed.
+[12143:0727/104326.793058:ERROR:viz_main_impl.cc(186)] Exiting GPU process due to errors during initialization
+libva error: vaGetDriverNameByIndex() failed with unknown libva error, driver_name = (null)
+[12245:0727/104326.880632:ERROR:gpu_memory_buffer_support_x11.cc(49)] dri3 extension not supported.
+[12208:0727/104326.891523:ERROR:command_buffer_proxy_impl.cc(128)] ContextResult::kTransientFailure: Failed to send GpuControl.CreateCommandBuffer.
+2023-07-27 03:43:27 Success.
+2023-07-27 03:43:27 Latest version is 1.3.5
+2023-07-27 03:43:27 App is up to date.
+2023-07-27 04:43:26 Checking for update using Github
+2023-07-27 04:43:26 Success.
+2023-07-27 04:43:26 Latest version is 1.3.5
+2023-07-27 04:43:26 App is up to date.
+2023-07-27 05:43:26 Checking for update using Github
+2023-07-27 05:43:26 Success.
+2023-07-27 05:43:26 Latest version is 1.3.5
+2023-07-27 05:43:26 App is up to date.
+2023-07-27 06:43:26 Checking for update using Github
+2023-07-27 06:43:26 Success.
+2023-07-27 06:43:26 Latest version is 1.3.5
+2023-07-27 06:43:26 App is up to date.
+2023-07-27 07:43:26 Checking for update using Github
+2023-07-27 07:43:26 Success.
+2023-07-27 07:43:26 Latest version is 1.3.5
+2023-07-27 07:43:26 App is up to date.
+2023-07-27 08:43:26 Checking for update using Github
+2023-07-27 08:43:27 Success.
+2023-07-27 08:43:27 Latest version is 1.3.5
+2023-07-27 08:43:27 App is up to date.
+2023-07-27 09:43:26 Checking for update using Github
+2023-07-27 09:43:27 Success.
+2023-07-27 09:43:27 Latest version is 1.3.5
+2023-07-27 09:43:27 App is up to date.
+2023-07-27 10:43:26 Checking for update using Github
+2023-07-27 10:43:27 Success.
+2023-07-27 10:43:27 Latest version is 1.3.5
+2023-07-27 10:43:27 App is up to date.
+[12050:0727/184326.009559:ERROR:network_service_instance_impl.cc(541)] Network service crashed, restarting service.
+[12050:0727/184326.025916:ERROR:zygote_communication_linux.cc(291)] Failed to send GetTerminationStatus message to zygote
+[12050:0727/184326.027090:ERROR:gpu_process_host.cc(937)] GPU process launch failed: error_code=1002
+[12050:0727/184326.027803:ERROR:gpu_process_host.cc(937)] GPU process launch failed: error_code=1002
+[12050:0727/184326.028573:ERROR:gpu_process_host.cc(937)] GPU process launch failed: error_code=1002
+[12050:0727/184326.029423:ERROR:gpu_process_host.cc(937)] GPU process launch failed: error_code=1002
+[12050:0727/184326.030226:ERROR:gpu_process_host.cc(937)] GPU process launch failed: error_code=1002
+[12050:0727/184326.030794:ERROR:gpu_process_host.cc(937)] GPU process launch failed: error_code=1002
+[12050:0727/184326.030821:FATAL:gpu_data_manager_impl_private.cc(440)] GPU process isn't usable. Goodbye.
