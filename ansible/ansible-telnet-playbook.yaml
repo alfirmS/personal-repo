@@ -1,0 +1,22 @@
+- hosts: server3
+  vars_files:
+          - ./vars/var.yaml
+  tasks:
+          - name: delete file
+            ignore_errors: yes
+            file:
+             state: absent
+             path: /home/adm-app/telnet.sh
+          - name: copying file with playbook
+            copy:
+             src: /home/devops/ansible/telnet.sh
+             dest: /home/adm-app/telnet.sh
+             owner: adm-app
+             group: adm-app
+          - name:
+            command: chmod +x /home/adm-app/telnet.sh
+          - name: Telnet Server {{server1}}
+            command: sh /home/adm-app/telnet.sh
+            register: results
+          - debug:
+                  var: results.stdout_lines

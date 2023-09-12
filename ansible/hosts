@@ -1,0 +1,6 @@
+[all:vars]
+ansible_connection = ssh
+
+[test]
+server2 ansible_host=esb_server1 ansible_user=adm-app ansible_password=@dminESB!!
+server3 ansible_host=acction_uat1 ansible_user=adm-app ansible_password=@Dira2020
