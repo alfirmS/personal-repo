@@ -71,7 +71,7 @@ export KUBE_EDITOR=/usr/bin/nvim
 # ssh -fN -L 8002:192.168.12.60:6443  ftedev@149.129.219.106
 # ssh -fN -L 8003:172.31.54.20:6443  ftedev@149.129.219.106
 # ssh -fN -L 8004:172.31.142.210:6443 ftedev@149.129.224.212
-ssh -p 2222 -fN -L  8009:172.17.9.1:5443 dev-newrplus@110.239.67.83
+# ssh -p 2222 -fN -L  8009:172.17.9.1:5443 dev-newrplus@110.239.67.83
 
 
 function roov() {
