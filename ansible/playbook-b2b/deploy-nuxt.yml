@@ -1,0 +1,159 @@
+---
+# ============================================================
+# 🏗 BUILD DI SERVER A
+# ============================================================
+- name: Build Nuxt App
+  hosts: build_server
+  become: yes
+
+  vars_files:
+    - /opt/ansible/group_vars/b2b.yml
+
+  tasks:
+
+    - name: Set release name
+      set_fact:
+        release_name: "{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}"
+
+    - name: Set build path
+      set_fact:
+        build_path: "/tmp/nuxt_build_{{ release_name }}"
+        artifact_path: "/tmp/nuxt_build_{{ release_name }}.tar.gz"
+
+    - name: Clean build dir
+      file:
+        path: "{{ build_path }}"
+        state: absent
+
+    - name: Clone repo
+      git:
+        repo: "git@gitlab.com:{{ ci_project_path }}.git"
+        dest: "{{ build_path }}"
+        version: "{{ branch_tag }}"
+        accept_hostkey: yes
+
+    - name: Install dependencies
+      shell: yarn
+      args:
+        chdir: "{{ build_path }}/nuxtjs_admin"
+
+    - name: Build Nuxt
+      shell: yarn build
+      args:
+        chdir: "{{ build_path }}/nuxtjs_admin"
+      environment:
+        NUXT_TELEMETRY_DISABLED: "1"
+
+    - name: Archive build (.output only)
+      archive:
+        path: "{{ build_path }}/nuxtjs_admin"
+        dest: "{{ artifact_path }}"
+        format: gz
+
+    - name: Fetch artifact to local
+      fetch:
+        src: "{{ artifact_path }}"
+        dest: "/tmp/"
+        flat: yes
+
+# ============================================================
+# 🚀 DEPLOY KE SERVER B
+# ============================================================
+- name: Deploy Nuxt App
+  hosts: server_master_fe
+  become: yes
+
+  vars_files:
+    - /opt/ansible/group_vars/b2b.yml
+
+  tasks:
+
+    - name: Set release name
+      set_fact:
+        release_name: "{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}"
+
+    - name: Set paths
+      set_fact:
+        release_path: "{{ app_base_dir }}/garudaku-b2b-nuxt/releases/{{ release_name }}"
+        current_path: "{{ app_base_dir }}/garudaku-b2b-nuxt/current"
+        artifact_local: "/tmp/nuxt_build_{{ release_name }}.tar.gz"
+        artifact_remote: "/tmp/nuxt_build.tar.gz"
+
+    - name: Ensure releases dir
+      file:
+        path: "{{ release_path }}"
+        state: directory
+
+    - name: Backup current symlink
+      command: readlink -f {{ current_path }}
+      register: current_target
+      ignore_errors: yes
+
+    - name: Deploy block
+      block:
+
+        - name: Create release dir
+          file:
+            path: "{{ release_path }}"
+            state: directory
+
+        - name: Copy artifact to server B
+          copy:
+            src: "{{ artifact_local }}"
+            dest: "{{ artifact_remote }}"
+
+        - name: Extract artifact
+          unarchive:
+            src: "{{ artifact_remote }}"
+            dest: "{{ release_path }}"
+            remote_src: yes
+
+        - name: Validate build
+          stat:
+            path: "{{ release_path }}/.output/server/index.mjs"
+          register: build_check
+
+        - name: Fail if invalid
+          fail:
+            msg: "Build invalid"
+          when: not build_check.stat.exists
+
+        - name: Update symlink
+          file:
+            src: "{{ release_path }}"
+            dest: "{{ current_path }}"
+            state: link
+            force: yes
+
+        - name: Restart app
+          shell: |
+            pm2 delete nuxt-app || true
+            pm2 start .output/server/index.mjs --name nuxt-app
+          args:
+            chdir: "{{ current_path }}"
+
+      rescue:
+
+        - name: Remove failed release
+          file:
+            path: "{{ release_path }}"
+            state: absent
+
+        - name: Restore symlink
+          file:
+            src: "{{ current_target.stdout }}"
+            dest: "{{ current_path }}"
+            state: link
+            force: yes
+          when: current_target.stdout is defined
+
+        - name: Fail deploy
+          fail:
+            msg: "Deploy failed, rollback done"
+
+      always:
+
+        - name: Cleanup old releases
+          shell: |
+            ls -dt {{ app_base_dir }}/releases/* | tail -n +6 | xargs rm -rf
+          ignore_errors: yes

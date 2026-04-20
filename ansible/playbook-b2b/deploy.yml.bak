@@ -1,0 +1,65 @@
+---
+# playbooks/deploy.yml
+# ─────────────────────────────────────────────────────────────────
+# Main Deployment Playbook
+# Jalankan: ansible-playbook -i inventory/hosts.ini playbooks/deploy.yml
+# ─────────────────────────────────────────────────────────────────
+
+# ── 2. PREPARE REPOSITORY ──────────────────────────────────────
+- name: Preparation repo (branch / tag aware)
+  hosts: server_master_be
+  become: yes
+  vars_files:
+    - /opt/ansible/group_vars/b2b.yml
+
+  tasks:
+    - name: Init Repo
+      shell: |
+        mkdir -p {{ app_base_dir }}/garudaku-b2b-sholeh
+        git init
+        git remote add origin git@gitlab.com:{{ ci_project_path }}.git
+      args: 
+        chdir: "{{ app_base_dir }}/garudaku-b2b-sholeh"
+
+    - name: Fetch repo
+      shell: git fetch --all --tags
+      args:
+        chdir: "{{ app_base_dir }}/garudaku-b2b-sholeh"
+
+    - name: Checkout branch_tag
+      shell: |
+        if git show-ref --tags --quiet --verify "refs/tags/{{ branch_tag }}"; then
+          echo "Deploy tag {{ branch_tag }}"
+          git checkout tags/{{ branch_tag }} -f
+        else
+          echo "Deploy branch {{ branch_tag }}"
+          git checkout {{ branch_tag }}
+          git reset --hard origin/{{ branch_tag }}
+        fi
+      args:
+        chdir: "{{ app_base_dir }}/garudaku-b2b-sholeh"
+
+    - name: Update submodule
+      shell: git submodule update --init --recursive
+      args:
+        chdir: "{{ app_base_dir }}/garudaku-b2b-sholeh"
+
+
+# ── 3. BUILD & COMPILE ─────────────────────────────────────────
+
+- name: Build and Compile Application
+  hosts: server_master_be
+  become: yes
+  vars_files:
+    - /opt/ansible/group_vars/b2b.yml
+
+  tasks:
+    - name: Lumen B2B Build & Compile
+      shell: |
+        composer install --working-dir={{ app_base_dir }}/garudaku-b2b-sholeh/lumen-b2b
+    - name: Lumen Supplier Build & Compile
+      shell: |
+        composer install --working-dir={{ app_base_dir }}/garudaku-b2b-sholeh/lumen-supplier
+    - name: Lumen Finance Build & Compile
+      shell: |
+        composer install --working-dir={{ app_base_dir }}/garudaku-b2b-sholeh/lumen-finance

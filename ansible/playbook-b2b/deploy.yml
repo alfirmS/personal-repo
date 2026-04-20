@@ -1,0 +1,102 @@
+- name: Deploy Application
+  hosts: server_master_be
+  become: yes
+
+  vars_files:
+    - /opt/ansible/group_vars/b2b.yml
+
+  tasks:
+
+    - name: Generate release name once
+      set_fact:
+        release_name: "{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}"
+
+    - name: Set release path
+      set_fact:
+        release_path: "{{ app_base_dir }}/garudaku-b2b/releases/{{ release_name }}"
+        current_path: "{{ app_base_dir }}/garudaku-b2b/current"
+
+    - name: Ensure releases directory exists
+      file:
+        path: "{{ release_path }}"
+        state: directory
+
+    - name: Get current symlink target (backup)
+      command: readlink -f {{ current_path }}
+      register: current_target
+      ignore_errors: yes
+
+    - name: Deploy block
+      block:
+
+        - name: Ensure release dir clean
+          file:
+            path: "{{ release_path }}"
+            state: absent
+
+        - name: Clone repo
+          git:
+            repo: "git@gitlab.com:{{ ci_project_path }}.git"
+            dest: "{{ release_path }}"
+            version: "{{ branch_tag }}"
+            accept_hostkey: yes
+
+        - name: Update submodule
+          shell: git submodule update --init --recursive
+          args:
+            chdir: "{{ release_path }}"
+
+        # ── BUILD ───────────────────────────────────────────
+        - name: Install dependencies (Lumen B2B)
+          shell: composer install --no-dev --prefer-dist --optimize-autoloader
+          args:
+            chdir: "{{ release_path }}/lumen-b2b"
+
+        - name: Install dependencies (Lumen Supplier)
+          shell: composer install --no-dev --prefer-dist --optimize-autoloader
+          args:
+            chdir: "{{ release_path }}/lumen-supplier"
+
+        - name: Install dependencies (Lumen Finance)
+          shell: composer install --no-dev --prefer-dist --optimize-autoloader
+          args:
+            chdir: "{{ release_path }}/lumen-finance"
+
+        # ── SWITCH ──────────────────────────────────────────
+        - name: Update current symlink
+          file:
+            src: "{{ release_path }}"
+            dest: "{{ current_path }}"
+            state: link
+            force: yes
+
+        - name: Reload PHP-FPM
+          service:
+            name: php8.2-fpm
+            state: reloaded
+
+      rescue:
+
+        - name: Rollback - remove failed release
+          file:
+            path: "{{ release_path }}"
+            state: absent
+
+        - name: Rollback - restore previous symlink (if exists)
+          file:
+            src: "{{ current_target.stdout }}"
+            dest: "{{ current_path }}"
+            state: link
+            force: yes
+          when: current_target.stdout is defined
+
+        - name: Fail deployment explicitly
+          fail:
+            msg: "Deployment failed during build (composer). Rollback executed."
+
+      always:
+
+        - name: Clean old releases (keep last 5)
+          shell: |
+            ls -dt {{ app_base_dir }}/releases/* | tail -n +4 | xargs rm -rf
+          ignore_errors: yes

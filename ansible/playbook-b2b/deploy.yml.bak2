@@ -1,0 +1,82 @@
+---
+# ─────────────────────────────────────────────────────────────────
+# DEPLOY PLAYBOOK (ZERO DOWNTIME STYLE)
+# ─────────────────────────────────────────────────────────────────
+
+- name: Deploy Application
+  hosts: server_master_be
+  become: yes
+
+  vars_files:
+    - /opt/ansible/group_vars/b2b.yml
+
+  tasks:
+
+    - name: Generate release name once
+      set_fact:
+        release_name: "{{ lookup('pipe', 'date +%Y%m%d') }}"
+
+    - name: Set release path
+      set_fact:
+        release_path: "{{ app_base_dir }}/releases/{{ release_name }}"
+        current_path: "{{ app_base_dir }}/current"
+
+    - name: Ensure releases directory exists
+      file:
+        path: "{{ app_base_dir }}/releases"
+        state: directory
+
+    - name: Ensure release dir clean
+      file:
+        path: "{{ release_path }}"
+        state: absent
+
+    - name: Clone repo
+      git:
+        repo: "git@gitlab.com:{{ ci_project_path }}.git"
+        dest: "{{ release_path }}"
+        version: "{{ branch_tag }}"
+        accept_hostkey: yes
+
+    # ── SUBMODULE ───────────────────────────────────────────────
+    - name: Update submodule
+      shell: git submodule update --init --recursive
+      args:
+        chdir: "{{ release_path }}"
+
+    # ── BUILD ───────────────────────────────────────────────────
+    - name: Install dependencies (Lumen B2B)
+      shell: composer install
+      args:
+        chdir: "{{ release_path }}/lumen-b2b"
+
+    - name: Install dependencies (Lumen Supplier)
+      shell: composer install
+      args:
+        chdir: "{{ release_path }}/lumen-supplier"
+
+    - name: Install dependencies (Lumen Finance)
+      shell: composer install
+      args:
+        chdir: "{{ release_path }}/lumen-finance"
+
+    # ── SWITCH (ZERO DOWNTIME CORE) ─────────────────────────────
+    - name: Update current symlink
+      file:
+        src: "{{ release_path }}"
+        dest: "{{ current_path }}"
+        state: link
+        force: yes
+
+    # ── OPTIONAL: RELOAD SERVICE ────────────────────────────────
+    - name: Reload PHP-FPM
+      service:
+        name: php8.2-fpm
+        state: reloaded
+      ignore_errors: yes
+
+    # ── CLEAN OLD RELEASE (KEEP LAST 5) ─────────────────────────
+    - name: Remove old releases
+      shell: |
+        ls -dt {{ app_base_dir }}/releases/* | tail -n +6 | xargs rm -rf
+      ignore_errors: yes

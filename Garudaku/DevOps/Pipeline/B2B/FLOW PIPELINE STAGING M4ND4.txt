@@ -1,0 +1,34 @@
+FLOW DEPLOY STAGING M4ND4
+------------------------------
+
+1. Developer push code to staging_m4nd4
+2. Pipeline running
+----------------------
+1. Pull Repository
+	- Prune (cleaning repository)
+	- Fetching all branch
+	- Checkout Branch staging_m4nd4
+	- Pull branch staging_m4nd4
+	- update submodule
+2. Update Docker dan Deploy
+	- Stop docker compose staging_m4nd4
+	- docker compose up -d staging_m4nd4
+		- build Dockerfile
+		- deploy to docker
+	- scaling all service ke 1
+	- ambil id container lumen_b2b
+	- exec "composer install", 
+		   "php artisan migrate", 
+		   "chown -R www:www storage",
+		   "chmod -Rf 777 storage"
+	- ambil id container lumen_supplier
+	- exec "composer install", 
+		   "php artisan migrate", 
+		   "chown -R www:www storage",
+		   "chmod -Rf 777 storage"
+	- ambil id container lumen_finance
+	- exec "composer install", 
+		   "php artisan migrate", 
+		   "chown -R www:www storage",
+		   "chmod -Rf 777 storage"
+      

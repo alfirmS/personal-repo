@@ -1,0 +1,21 @@
+# ─────────────────────────────────────────────
+# group_vars/all.yml
+# Variabel global untuk semua server
+# ─────────────────────────────────────────────
+ 
+app_base_dir: "/var/www/docker"
+ 
+# Health check endpoints
+health_check_endpoints:
+  - url: "https://api.yourdomain.com/health"
+    name: "Master BE API"
+  - url: "https://admin.yourdomain.com"
+    name: "Nuxt Admin"
+  - url: "https://reseller.yourdomain.com"
+    name: "Nuxt Reseller"
+  - url: "https://whitelist-api.yourdomain.com/health"
+    name: "Whitelist APIs"
+
+ci_project_path: "yamisok/garudaku-b2b"
+ 
+# Huawei Autoscaling config

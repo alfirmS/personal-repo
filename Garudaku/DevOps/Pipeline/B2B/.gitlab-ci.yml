@@ -1,0 +1,853 @@
+image: php:8.2-cli
+stages:
+  - preparation #compile and composer installation
+  - staging #migrate and update staging
+  - production
+  - prepare_repo_master
+  - prepare_image
+  - deploy_api
+  # - deploy_platform
+
+#==============================================================================DEPLOYMENT========================================================================================
+#===============================================================================STAGING==========================================================================================
+
+# Dev Yamisok
+# Group : Staging 0 - Desprecated
+prepare-repo:
+  only:
+    - staging
+  stage: preparation
+  before_script:
+    - echo "Preparing Repository"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$B2B_STAGING_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$B2B_STAGING_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${B2B_STAGING_ACCESS} "git -C /var/www/docker/garudaku-b2b remote prune origin"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "git -C /var/www/docker/garudaku-b2b fetch"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "git -C /var/www/docker/garudaku-b2b checkout staging"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "git -C /var/www/docker/garudaku-b2b pull origin staging"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "git -C /var/www/docker/garudaku-b2b submodule update --recursive --init --remote"
+
+# Dev Yamisok
+# Group : Staging 0 - Desprecated
+update-docker:
+  only:
+    - staging
+  needs: [prepare-repo]
+  stage: staging
+  before_script:
+    - echo "Update Docker Staging"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$B2B_STAGING_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$B2B_STAGING_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/garudaku-b2b/docker-compose-staging.yml stop"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/garudaku-b2b/docker-compose-staging.yml up -d"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/garudaku-b2b/docker-compose-staging.yml scale lumen_b2b=1 lumen_finance=1 lumen_supplier=1"
+
+    - ssh -p22 ${B2B_STAGING_ACCESS} "echo -n "" > /var/www/docker/garudaku-b2b/.lumen-b2b_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "docker ps -aqf 'name=garudaku-b2b_lumen_b2b' | head -n 1 >> /var/www/docker/garudaku-b2b/.lumen-b2b_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-b2b_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-b2b_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-b2b_container | xargs -I % docker exec -t % php artisan migrate"
+
+    - ssh -p22 ${B2B_STAGING_ACCESS} "echo -n "" > /var/www/docker/garudaku-b2b/.lumen-finance_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "docker ps -aqf 'name=garudaku-b2b_lumen_finance' | head -n 1 >> /var/www/docker/garudaku-b2b/.lumen-finance_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-finance_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-finance_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-finance_container | xargs -I % docker exec -t % php artisan migrate"
+
+    - ssh -p22 ${B2B_STAGING_ACCESS} "echo -n "" > /var/www/docker/garudaku-b2b/.lumen-supplier_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "docker ps -aqf 'name=garudaku-b2b_lumen_supplier' | head -n 1 >> /var/www/docker/garudaku-b2b/.lumen-supplier_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-supplier_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-supplier_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-supplier_container | xargs -I % docker exec -t % php artisan migrate"
+    
+    #- ssh -p22 ${STAGING_ACCESS} "cat /var/www/docker/store/.lumen_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${STAGING_ACCESS} "cat /var/www/docker/store/.lumen_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/garudaku-b2b/docker-compose-staging.yml scale lumen_b2b=1 lumen_finance=1 lumen_supplier=1"
+	
+#================================================================================DEPLOYMENT======================================================================================
+#===============================================================================STAGING LI54=====================================================================================
+
+# Dev Garudaku
+# Group : Staging 2 li54
+prepare-repo-li54:
+  only:
+    - staging_li54
+  stage: preparation
+  before_script:
+    - echo "Preparing Repository"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$DEV_GARUDAKU_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$DEV_GARUDAKU_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/li54-garudaku-b2b remote prune origin"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/li54-garudaku-b2b fetch"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/li54-garudaku-b2b checkout staging_li54"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/li54-garudaku-b2b pull origin staging_li54"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/li54-garudaku-b2b submodule update --recursive --init --remote"
+
+# Dev Yamisok
+# Group : Staging li54
+update-docker-li54:
+  only:
+    - staging_li54
+  needs: [prepare-repo-li54]
+  stage: staging
+  before_script:
+    - echo "Update Docker Staging"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$TOPUP_STAGING_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$TOPUP_STAGING_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/li54-garudaku-b2b/docker-compose-staging-li54.yml stop"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/li54-garudaku-b2b/docker-compose-staging-li54.yml up -d"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/li54-garudaku-b2b/docker-compose-staging-li54.yml scale lumen_b2b=1 lumen_supplier=1 lumen_finance=1"
+    # Update Lumen B2B
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/li54-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_b2b' | head -n 1 >> /var/www/docker/li54-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    # Update Lumen B2B Supplier
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/li54-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_supplier' | head -n 1 >> /var/www/docker/li54-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    # Update Lumen B2B Finance
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/li54-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_finance' | head -n 1 >> /var/www/docker/li54-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/li54-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/li54-garudaku-b2b/docker-compose-staging-li54.yml scale lumen_b2b=1 lumen_supplier=1 lumen_finance=1"
+
+#================================================================================DEPLOYMENT======================================================================================
+#===============================================================================STAGING AN93L====================================================================================
+
+# Dev Garudaku
+# Group : Staging 2 an93l
+prepare-repo-an93l:
+  only:
+    - staging_an93l
+  stage: preparation
+  before_script:
+    - echo "Preparing Repository"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$DEV_GARUDAKU_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$DEV_GARUDAKU_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/an93l-garudaku-b2b remote prune origin"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/an93l-garudaku-b2b fetch"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/an93l-garudaku-b2b checkout staging_an93l"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/an93l-garudaku-b2b pull origin staging_an93l"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/an93l-garudaku-b2b submodule update --recursive --init --remote"
+
+# Dev Yamisok
+# Group : Staging an93l
+update-docker-an93l:
+  only:
+    - staging_an93l
+  needs: [prepare-repo-an93l]
+  stage: staging
+  before_script:
+    - echo "Update Docker Staging"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$TOPUP_STAGING_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$TOPUP_STAGING_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/an93l-garudaku-b2b/docker-compose-staging-an93l.yml stop"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/an93l-garudaku-b2b/docker-compose-staging-an93l.yml up -d"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/an93l-garudaku-b2b/docker-compose-staging-an93l.yml scale lumen_b2b=1 lumen_supplier=1 lumen_finance=1"
+    # Update Lumen B2B
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_b2b' | head -n 1 >> /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    # Update Lumen B2B Supplier
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_supplier' | head -n 1 >> /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    # Update Lumen B2B Finance
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_finance' | head -n 1 >> /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/an93l-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/an93l-garudaku-b2b/docker-compose-staging-an93l.yml scale lumen_b2b=1 lumen_supplier=1 lumen_finance=1"
+
+#===============================================================================DEPLOYMENT=======================================================================================
+#===============================================================================STAGING EK4======================================================================================
+
+# Dev Garudaku
+# Group : Staging 2 ek4
+prepare-repo-ek4:
+  only:
+    - staging_ek4
+  stage: preparation
+  before_script:
+    - echo "Preparing Repository"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$DEV_GARUDAKU_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$DEV_GARUDAKU_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/ek4-garudaku-b2b remote prune origin"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/ek4-garudaku-b2b fetch"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/ek4-garudaku-b2b checkout staging_ek4"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/ek4-garudaku-b2b pull origin staging_ek4"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/ek4-garudaku-b2b submodule update --recursive --init --remote"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/ek4-garudaku-b2b_m4nd4 remote prune origin"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/ek4-garudaku-b2b_m4nd4 fetch"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/ek4-garudaku-b2b_m4nd4 checkout staging_ek4"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/ek4-garudaku-b2b_m4nd4 pull origin staging_ek4"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/ek4-garudaku-b2b_m4nd4 submodule update --recursive --init --remote"
+
+# Dev Yamisok
+# Group : Staging ek4
+update-docker-ek4:
+  only:
+    - staging_ek4
+  needs: [prepare-repo-ek4]
+  stage: staging
+  before_script:
+    - echo "Update Docker Staging"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$TOPUP_STAGING_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$TOPUP_STAGING_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/ek4-garudaku-b2b/docker-compose-staging-ek4.yml stop"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/ek4-garudaku-b2b/docker-compose-staging-ek4.yml up -d"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/ek4-garudaku-b2b/docker-compose-staging-ek4.yml scale lumen_b2b=1 lumen_supplier=1 lumen_finance=1"
+    # Update Lumen B2B
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_b2b' | head -n 1 >> /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    # Update Lumen B2B Supplier
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_supplier' | head -n 1 >> /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    # Update Lumen B2B Finance
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_finance' | head -n 1 >> /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/ek4-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/ek4-garudaku-b2b/docker-compose-staging-ek4.yml scale lumen_b2b=1 lumen_supplier=1 lumen_finance=1"
+
+#================================================================================DEPLOYMENT======================================================================================
+#===============================================================================STAGING C1NDY====================================================================================
+
+# Dev Garudaku
+# Group : Staging 2 c1ndy
+prepare-repo-c1ndy:
+  only:
+    - staging_c1ndy
+  stage: preparation
+  before_script:
+    - echo "Preparing Repository"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$DEV_GARUDAKU_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$DEV_GARUDAKU_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/c1ndy-garudaku-b2b remote prune origin"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/c1ndy-garudaku-b2b fetch"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/c1ndy-garudaku-b2b checkout staging_c1ndy"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/c1ndy-garudaku-b2b pull origin staging_c1ndy"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/c1ndy-garudaku-b2b submodule update --recursive --init --remote"
+
+# Dev Yamisok
+# Group : Staging c1ndy
+update-docker-c1ndy:
+  only:
+    - staging_c1ndy
+  needs: [prepare-repo-c1ndy]
+  stage: staging
+  before_script:
+    - echo "Update Docker Staging"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$TOPUP_STAGING_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$TOPUP_STAGING_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/c1ndy-garudaku-b2b/docker-compose-staging-c1ndy.yml stop"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/c1ndy-garudaku-b2b/docker-compose-staging-c1ndy.yml up -d"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/c1ndy-garudaku-b2b/docker-compose-staging-c1ndy.yml scale lumen_b2b=1 lumen_supplier=1 lumen_finance=1"
+    # Update Lumen B2B
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_b2b' | head -n 1 >> /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    # Update Lumen B2B Supplier
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_supplier' | head -n 1 >> /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    # Update Lumen B2B Finance
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_finance' | head -n 1 >> /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/c1ndy-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/c1ndy-garudaku-b2b/docker-compose-staging-c1ndy.yml scale lumen_b2b=1 lumen_supplier=1 lumen_finance=1"
+
+#================================================================================DEPLOYMENT======================================================================================
+#===============================================================================STAGING M4ND4====================================================================================
+
+# Dev Garudaku
+# Group : Staging 2 m4nd4
+prepare-repo-m4nd4:
+  only:
+    - staging_m4nd4
+  stage: preparation
+  before_script:
+    - echo "Preparing Repository"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$TOPUP_STAGING_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$TOPUP_STAGING_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "git -C /var/www/docker/m4nd4-garudaku-b2b remote prune origin"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "git -C /var/www/docker/m4nd4-garudaku-b2b fetch"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "git -C /var/www/docker/m4nd4-garudaku-b2b checkout staging_m4nd4"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "git -C /var/www/docker/m4nd4-garudaku-b2b pull origin staging_m4nd4"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "git -C /var/www/docker/m4nd4-garudaku-b2b submodule update --recursive --init --remote"
+
+# Dev Yamisok
+# Group : Staging m4nd4
+update-docker-m4nd4:
+  only:
+    - staging_m4nd4
+  needs: [prepare-repo-m4nd4]
+  stage: staging
+  before_script:
+    - echo "Update Docker Staging"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$TOPUP_STAGING_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$TOPUP_STAGING_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/m4nd4-garudaku-b2b/docker-compose-staging-m4nd4.yml stop"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/m4nd4-garudaku-b2b/docker-compose-staging-m4nd4.yml up -d"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/m4nd4-garudaku-b2b/docker-compose-staging-m4nd4.yml scale lumen_b2b=1 lumen_supplier=1 lumen_finance=1"
+    # Update Lumen B2B
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_b2b' | head -n 1 >> /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    # Update Lumen B2B Supplier
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_supplier' | head -n 1 >> /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    # Update Lumen B2B Finance
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_finance' | head -n 1 >> /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/m4nd4-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/m4nd4-garudaku-b2b/docker-compose-staging-m4nd4.yml scale lumen_b2b=1 lumen_supplier=1 lumen_finance=1"
+
+#================================================================================DEPLOYMENT======================================================================================
+#===============================================================================STAGING ALPHA====================================================================================
+
+# Dev Garudaku
+# Group : Staging 2 alpha
+prepare-repo-alpha:
+  only:
+    - staging_alpha
+  stage: preparation
+  before_script:
+    - echo "Preparing Repository"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$DEV_GARUDAKU_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$DEV_GARUDAKU_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/alpha-garudaku-b2b remote prune origin"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/alpha-garudaku-b2b fetch"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/alpha-garudaku-b2b checkout staging_alpha"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/alpha-garudaku-b2b pull origin staging_alpha"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/alpha-garudaku-b2b submodule update --recursive --init --remote"
+
+# Dev Yamisok
+# Group : Staging alpha
+#update-docker-alpha:
+#  only:
+#    - staging_alpha
+#  needs: [prepare-repo-alpha]
+#  stage: staging
+#  before_script:
+#    - echo "Update Docker Staging"
+#    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+#    - mkdir -p ~/.ssh
+#    - eval $(ssh-agent -s)
+#    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+#    - echo -n "$DEV_GARUDAKU_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+#  script:
+#    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/alpha-garudaku-b2b/docker-compose-staging-alpha.yml stop"
+#    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/alpha-garudaku-b2b/docker-compose-staging-alpha.yml up -d"
+#    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/alpha-garudaku-b2b/docker-compose-staging-alpha.yml scale lumen=1"
+#    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "echo -n "" > /var/www/docker/alpha-garudaku-b2b/.lumen_container"
+#    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "docker ps -aqf 'name=garudaku_lumen' | head -n 1 >> /var/www/docker/alpha-garudaku-b2b/.lumen_container"
+#    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "cat /var/www/docker/alpha-garudaku-b2b/.lumen_container"
+#    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "cat /var/www/docker/alpha-garudaku-b2b/.lumen_container | xargs -I % docker exec -t % composer install"
+#    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "cat /var/www/docker/alpha-garudaku-b2b/.lumen_container | xargs -I % docker exec -t % php artisan migrate"
+#    #- ssh -p22 ${DEV_GARUDAKU_ACCESS} "cat /var/www/docker/alpha-garudaku-b2b/.lumen_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+#    #- ssh -p22 ${DEV_GARUDAKU_ACCESS} "cat /var/www/docker/alpha-garudaku-b2b/.lumen_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+#    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "cat /var/www/docker/alpha-garudaku-b2b/.lumen_container | xargs -I % docker exec -t % chown -R www:www storage"
+#    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/alpha-garudaku-b2b/docker-compose-staging-alpha.yml scale lumen=2"
+
+#================================================================================DEPLOYMENT======================================================================================
+#===============================================================================STAGING BETA=====================================================================================
+
+# Dev Garudaku
+# Group : Staging 2 beta
+prepare-repo-beta:
+  only:
+    - staging_beta
+  stage: preparation
+  before_script:
+    - echo "Preparing Repository"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$DEV_GARUDAKU_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$DEV_GARUDAKU_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/beta-garudaku-b2b remote prune origin"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/beta-garudaku-b2b fetch"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/beta-garudaku-b2b checkout staging_beta"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/beta-garudaku-b2b pull origin staging_beta"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "git -C /var/www/docker/beta-garudaku-b2b submodule update --recursive --init --remote"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "/home/ubuntu/waiting_building_topup_beta.sh"
+    - ssh -p22 ${DEV_GARUDAKU_ACCESS} "rm -Rf /var/www/docker/beta-garudaku-b2b/topup/dist_prod && cp -Rf /var/www/docker/beta-garudaku-b2b/topup/dist /var/www/docker/beta-garudaku-b2b/topup/dist_prod && cp /var/www/docker/beta-garudaku-b2b/topup/.htaccess /var/www/docker/beta-garudaku-b2b/topup/dist_prod/.htaccess"
+
+# Dev Yamisok
+# Group : Staging beta
+update-docker-beta:
+  only:
+    - staging_beta
+  needs: [prepare-repo-beta]
+  stage: staging
+  before_script:
+    - echo "Update Docker Staging"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$TOPUP_STAGING_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$TOPUP_STAGING_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/beta-garudaku-b2b/docker-compose-staging-beta.yml stop"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/beta-garudaku-b2b/docker-compose-staging-beta.yml up -d"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/beta-garudaku-b2b/docker-compose-staging-beta.yml scale lumen_b2b=1 lumen_supplier=1 lumen_finance=1"
+    # Update Lumen B2B
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/beta-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_b2b' | head -n 1 >> /var/www/docker/beta-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    # Update Lumen B2B Supplier
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/beta-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_supplier' | head -n 1 >> /var/www/docker/beta-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_supplier_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_supplier_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    # Update Lumen B2B Finance
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "echo -n "" > /var/www/docker/beta-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "docker ps -aqf 'name=lumen_finance' | head -n 1 >> /var/www/docker/beta-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_finance_container"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chown -R www:www storage"
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "cat /var/www/docker/beta-garudaku-b2b/.lumen_b2b_finance_container | xargs -I % docker exec -t % chmod -Rf 777 storage"
+
+    - ssh -p22 ${TOPUP_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/beta-garudaku-b2b/docker-compose-staging-beta.yml scale lumen_b2b=1 lumen_supplier=1 lumen_finance=1"
+
+#===============================================================================DEPLOYMENT=======================================================================================
+#===============================================================================PRODUCTION=======================================================================================
+
+prepare-repo-production:
+  only:
+    - master
+  stage: preparation
+  when: manual
+  before_script:
+    - echo "Preparing Repository Production in Staging Server"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$B2B_STAGING_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$B2B_STAGING_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${B2B_STAGING_ACCESS} "git -C /var/www/docker/garudaku-b2b remote prune origin"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "git -C /var/www/docker/garudaku-b2b fetch"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "git -C /var/www/docker/garudaku-b2b checkout master"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "git -C /var/www/docker/garudaku-b2b pull origin master"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "git -C /var/www/docker/garudaku-b2b submodule update --recursive --init --remote"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/home/ubuntu/start_master-garudaku-b2b.sh"
+
+compile-asset:
+  only:
+    - master
+  needs: [prepare-repo-production]
+  stage: staging
+  before_script:
+    - echo "Compile Production Asset"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$B2B_STAGING_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$B2B_STAGING_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/garudaku-b2b/docker-compose-production.yml stop"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/garudaku-b2b/docker-compose-production.yml up -d --no-deps --build nginx_b2b nginx_finance nginx_supplier"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/garudaku-b2b/docker-compose-production.yml up -d"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/garudaku-b2b/docker-compose-production.yml scale lumen_b2b=1 lumen_supplier=1 lumen_finance=1"
+
+    - ssh -p22 ${B2B_STAGING_ACCESS} "echo -n "" > /var/www/docker/garudaku-b2b/.lumen-b2b_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "docker ps -aqf 'name=garudaku-b2b_lumen_b2b' | head -n 1 >> /var/www/docker/garudaku-b2b/.lumen-b2b_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-b2b_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-b2b_container | xargs -I % docker exec -t % composer install"
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-b2b_container | xargs -I % docker exec -t % php artisan migrate"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-b2b_container | xargs -I % docker exec -t % chown -R www:www storage"
+
+    - ssh -p22 ${B2B_STAGING_ACCESS} "echo -n "" > /var/www/docker/garudaku-b2b/.lumen-finance_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "docker ps -aqf 'name=garudaku-b2b_lumen_finance' | head -n 1 >> /var/www/docker/garudaku-b2b/.lumen-finance_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-finance_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-finance_container | xargs -I % docker exec -t % composer install"
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-finance_container | xargs -I % docker exec -t % php artisan migrate"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-finance_container | xargs -I % docker exec -t % chown -R www:www storage"
+
+    - ssh -p22 ${B2B_STAGING_ACCESS} "echo -n "" > /var/www/docker/garudaku-b2b/.lumen-supplier_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "docker ps -aqf 'name=garudaku-b2b_lumen_supplier' | head -n 1 >> /var/www/docker/garudaku-b2b/.lumen-supplier_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-supplier_container"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-supplier_container | xargs -I % docker exec -t % composer install"
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-supplier_container | xargs -I % docker exec -t % php artisan migrate"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen-supplier_container | xargs -I % docker exec -t % chown -R www:www storage"
+
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "echo -n "" > /var/www/docker/garudaku-b2b/.lumen_container"
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "docker ps -aqf 'name=store_lumen' | head -n 1 >> /var/www/docker/garudaku-b2b/.lumen_container"
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container"
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container | xargs -I % docker exec -t % composer install"
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container | xargs -I % docker exec -t % chown -R www:www storage"
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container | xargs -I % docker exec -t % setfacl -Rdm g:www:rwx /var/www/storage"
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container | xargs -I % docker exec -t % setfacl -Rdm g:www:rwx /var/www/storage/logs"
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/garudaku-b2b/docker-compose-production.yml scale lumen_b2b=1 lumen_supplier=1 lumen_finance=1"
+	
+#===================================================================================DEPLOYMENT===================================================================================
+#=====================================================================================NUXTJS=====================================================================================
+
+transfering-asset:
+  only:
+    - master
+  stage: production
+  needs: [compile-asset]
+  before_script:
+    - echo "Update Docker Staging"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$B2B_STAGING_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$B2B_STAGING_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/home/ubuntu/waiting_docker_compose.sh /var/www/docker/garudaku-b2b docker-compose-production.yml nuxt_reseller"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/home/ubuntu/waiting_docker_compose.sh /var/www/docker/garudaku-b2b docker-compose-production.yml nuxt_admin"
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "/home/ubuntu/start_master_garudaku.sh"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "sed -r -i 's/https:\/\/assets.garudaku.com\/reseller\/manifest\.([\w]*)/manifest.\1/g' /var/www/docker/garudaku-b2b/nuxtjs_admin/dist/index.html"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "sed -r -i 's/https:\/\/assets.garudaku.com\/reseller_admin\/manifest\.([\w]*)/manifest.\1/g' /var/www/docker/garudaku-b2b/nuxtjs_reseller/dist/index.html"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "mv /var/www/docker/garudaku-b2b/nuxtjs_reseller/dist /var/www/docker/garudaku-b2b/nuxtjs_reseller/reseller && obsutil cp /var/www/docker/garudaku-b2b/nuxtjs_reseller/reseller obs://assets.garudaku.com/ -r -f && mv /var/www/docker/garudaku-b2b/nuxtjs_reseller/reseller /var/www/docker/garudaku-b2b/nuxtjs_reseller/dist"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "mv /var/www/docker/garudaku-b2b/nuxtjs_admin/dist /var/www/docker/garudaku-b2b/nuxtjs_admin/reseller_admin && obsutil cp /var/www/docker/garudaku-b2b/nuxtjs_admin/reseller_admin obs://assets.garudaku.com/ -r -f && mv /var/www/docker/garudaku-b2b/nuxtjs_admin/reseller_admin /var/www/docker/garudaku-b2b/nuxtjs_admin/dist"
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "cp -Rf /var/www/docker/garudaku_production/nuxtjs/dist /var/www/docker/garudaku_production/publish/platform/."
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "cp -Rf /var/www/docker/garudaku_production/admin/dist /var/www/docker/garudaku_production/publish/clientarea/."
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "cp -Rf /var/www/docker/garudaku_production/topup-dashboard/dist /var/www/docker/garudaku_production/publish/clientarea/."
+    - ssh -p22 ${B2B_STAGING_ACCESS} "scp -r /var/www/docker/garudaku-b2b/nuxtjs_reseller/dist ubuntu@49.0.201.209:/var/www/docker/garudaku-b2b/nuxtjs_reseller/."
+    - ssh -p22 ${B2B_STAGING_ACCESS} "scp -r /var/www/docker/garudaku-b2b/nuxtjs_admin/dist ubuntu@49.0.201.209:/var/www/docker/garudaku-b2b/nuxtjs_admin/."
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/home/ubuntu/backup_index_html_b2b.sh"
+	
+#===================================================================================DEPLOYMENT===================================================================================
+#===================================================================================WHITELIST====================================================================================
+    
+prepare-repo-whitelist:
+  only:
+    - master
+  stage: preparation
+  before_script:
+    - echo "Preparing Repository Production in Staging Server"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$B2B_WHITELIST_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$B2B_WHITELIST_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - echo "${B2B_WHITELIST_ACCESS}"
+    - ssh -vvv -o PubkeyAcceptedAlgorithms=+ssh-rsa -o HostkeyAlgorithms=+ssh-rsa -p22 ${B2B_WHITELIST_ACCESS} "git -C /var/www/docker/garudaku-b2b remote prune origin"
+    - ssh -p22 ${B2B_WHITELIST_ACCESS} "git -C /var/www/docker/garudaku-b2b fetch"
+    #- ssh -p22 ${B2B_WHITELIST_ACCESS} "git -C /var/www/docker/garudaku-b2b checkout lumen/storage/api-docs/api-docs.json"
+    - ssh -p22 ${B2B_WHITELIST_ACCESS} "git -C /var/www/docker/garudaku-b2b checkout master"
+    - ssh -p22 ${B2B_WHITELIST_ACCESS} "git -C /var/www/docker/garudaku-b2b pull origin master"
+    - ssh -p22 ${B2B_WHITELIST_ACCESS} "git -C /var/www/docker/garudaku-b2b submodule update --recursive --init --remote"
+    #- ssh -p22 ${B2B_WHITELIST_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/garudaku-b2b/docker-compose-production.yml stop"
+    - ssh -p22 ${B2B_WHITELIST_ACCESS} "composer install --working-dir=/var/www/docker/garudaku-b2b/lumen-b2b"
+    - ssh -p22 ${B2B_WHITELIST_ACCESS} "composer install --working-dir=/var/www/docker/garudaku-b2b/lumen-finance"
+    - ssh -p22 ${B2B_WHITELIST_ACCESS} "composer install --working-dir=/var/www/docker/garudaku-b2b/lumen-supplier"
+	
+#===================================================================================DEPLOYMENT===================================================================================
+#=====================================================================================WORKER=====================================================================================
+	
+update-worker:
+  only:
+    - master
+  stage: production
+  needs: [prepare-repo-production]
+  before_script:
+    - echo "Update Worker"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$B2B_WORKER_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$B2B_WORKER_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${B2B_WORKER_ACCESS} "git -C /var/www/docker/garudaku-b2b remote prune origin"
+    - ssh -p22 ${B2B_WORKER_ACCESS} "git -C /var/www/docker/garudaku-b2b fetch"
+    - ssh -p22 ${B2B_WORKER_ACCESS} "git -C /var/www/docker/garudaku-b2b checkout staging"
+    - ssh -p22 ${B2B_WORKER_ACCESS} "git -C /var/www/docker/garudaku-b2b pull origin staging"
+    - ssh -p22 ${B2B_WORKER_ACCESS} "git -C /var/www/docker/garudaku-b2b submodule update --recursive --init --remote"
+    - ssh -p22 ${B2B_WORKER_ACCESS} "composer install --working-dir=/var/www/docker/garudaku-b2b/lumen-b2b"
+    - ssh -p22 ${B2B_WORKER_ACCESS} "composer install --working-dir=/var/www/docker/garudaku-b2b/lumen-finance"
+    - ssh -p22 ${B2B_WORKER_ACCESS} "composer install --working-dir=/var/www/docker/garudaku-b2b/lumen-supplier"
+    - ssh -p22 ${B2B_WORKER_ACCESS} "sudo supervisorctl reread && sudo supervisorctl update"
+
+#===================================================================================DEPLOYMENT===================================================================================
+#=====================================================================================MASTER=====================================================================================
+	
+# update unipin 119.13.103.12
+update-master-image:
+  only:
+    - master
+  stage: prepare_repo_master
+  #needs: [transfering-asset]
+  before_script:
+    - echo "Update Master Image and Repository"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$B2B_MASTER_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$B2B_MASTER_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${B2B_MASTER_ACCESS} "git -C /var/www/docker/garudaku-b2b remote prune origin"
+    - ssh -p22 ${B2B_MASTER_ACCESS} "git -C /var/www/docker/garudaku-b2b fetch"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "git -C /var/www/docker/garudaku-b2b checkout lumen/storage/api-docs/api-docs.json"
+    - ssh -p22 ${B2B_MASTER_ACCESS} "git -C /var/www/docker/garudaku-b2b checkout master"
+    - ssh -p22 ${B2B_MASTER_ACCESS} "git -C /var/www/docker/garudaku-b2b pull origin master"
+    - ssh -p22 ${B2B_MASTER_ACCESS} "git -C /var/www/docker/garudaku-b2b submodule update --recursive --init --remote"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/garudaku-b2b/docker-compose-autoscale.yml stop"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/garudaku-b2b/docker-compose-autoscale.yml up -d --no-deps --build web"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/garudaku-b2b/docker-compose-autoscale.yml up -d"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/garudaku-b2b/docker-compose-autoscale.yml scale lumen=1"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "echo -n "" > /var/www/docker/garudaku-b2b/.lumen_container"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "docker ps -aqf 'name=garudaku-b2b_lumen' | head -n 1 >> /var/www/docker/garudaku-b2b/.lumen_container"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container | xargs -I % docker exec -t % composer install"
+    - ssh -p22 ${B2B_MASTER_ACCESS} "composer install --working-dir=/var/www/docker/garudaku-b2b/lumen-b2b"
+    - ssh -p22 ${B2B_MASTER_ACCESS} "composer install --working-dir=/var/www/docker/garudaku-b2b/lumen-finance"
+    - ssh -p22 ${B2B_MASTER_ACCESS} "composer install --working-dir=/var/www/docker/garudaku-b2b/lumen-supplier"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container | xargs -I % docker exec -t % php artisan migrate"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/logs/*"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container | xargs -I % docker exec -t % chmod -Rf 777 /var/www/storage/*"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container | xargs -I % docker exec -t % chown -R www:www storage"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "chown -R www:www /var/www/docker/garudaku-b2b/lumen/storage"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container | xargs -I % docker exec -t % setfacl -Rdm g:www:rwx /var/www/storage"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "cat /var/www/docker/garudaku-b2b/.lumen_container | xargs -I % docker exec -t % setfacl -Rdm g:www:rwx /var/www/storage/logs"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "chown -R www:www /var/www/docker/garudaku-b2b/lumen/storage/logs"
+    #- ssh -p22 ${B2B_MASTER_ACCESS} "/usr/local/bin/docker-compose -f /var/www/docker/garudaku-b2b/docker-compose-autoscale.yml scale lumen=20"
+
+building-api-image:
+  only:
+    - master
+  stage: prepare_image
+  needs: [update-master-image]
+  when: manual
+  before_script:
+    - echo "Update Production environnment"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$B2B_STAGING_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$B2B_STAGING_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/home/ubuntu/init_cicd-garudaku-b2b.sh"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/home/ubuntu/create_garudaku_api-garudaku-b2b_image.sh"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/home/ubuntu/waiting_garudaku_api-garudaku-b2b_image.sh"
+    - sleep 180
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/home/ubuntu/stop_master_api-garudaku-b2b_garudaku.sh"
+deploy-to-production-api:
+  only:
+    - master
+  stage: deploy_api
+  needs: [building-api-image]
+  when: manual
+  before_script:
+    - echo "Update Production environnment"
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -n "$B2B_STAGING_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh-keyscan "$(echo "$B2B_STAGING_ACCESS" | cut -d@ -f2)" >> ~/.ssh/known_hosts
+  script:
+    #- ssh -p22 ${B2B_STAGING_ACCESS} "/home/ubuntu/toggle_as_garudaku_api-garudaku-b2b.sh"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/home/ubuntu/create_as_config_garudaku_api-garudaku-b2b.sh"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/home/ubuntu/update_as_group_garudaku_api-garudaku-b2b.sh"
+    - ssh -p22 ${B2B_STAGING_ACCESS} "/home/ubuntu/rolling_instance_as_group_garudaku_api-garudaku-b2b.sh"
+
+
+p
