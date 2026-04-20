@@ -1,1 +1,0 @@
-Fix in SOP untuk backup dan restorenya, apakah jadi menggunakan on premise?

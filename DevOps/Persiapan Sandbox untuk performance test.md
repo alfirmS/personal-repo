@@ -1,1 +1,0 @@
-Menunggu proposal approved

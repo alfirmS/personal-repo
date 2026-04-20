@@ -1,1 +1,0 @@
-Menunggu mas avan setup log laravel -> Tinggal Deploy
